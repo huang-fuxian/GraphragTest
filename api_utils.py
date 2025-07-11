@@ -5,7 +5,7 @@ import requests
 from openai import OpenAI
 from langchain_community.embeddings import OpenAIEmbeddings
 from langchain.embeddings.base import Embeddings
-from llm.config import API_CONFIG, EMBEDDING_CONFIG, NEO4J_CONFIG
+from config import LLM_CONFIG, EMBEDDING_CONFIG, NEO4J_CONFIG
 from neo4j import GraphDatabase
 
 class LocalEmbeddings(Embeddings):
@@ -35,7 +35,7 @@ def clean_api_response(response: str, api_type: str) -> str:
 def test_api_connection(api_type: str, api_key: str, model_name: str) -> Tuple[bool, str]:
     """测试API连接"""
     try:
-        base_url = API_CONFIG[api_type.lower()]['base_url']
+        base_url = LLM_CONFIG['API_URL']
         client = OpenAI(api_key=api_key, base_url=base_url)
         
         response = client.chat.completions.create(
@@ -83,11 +83,11 @@ def get_context_aware_response(question: str, history: list, api_type: str, api_
     )
     return clean_api_response(response.choices[0].message.content, api_type)
 
-def get_context_aware_response_stream(question: str, history: list, api_type: str, api_key: str, model_name: str, max_tokens: int = 512):
+def get_context_aware_response_stream(question: str, history: list, client,  model_name: str, max_tokens: int = 512):
     """
     支持流式输出的上下文感知问答
     """
-    client = get_api_client(api_type, api_key, model_name)
+    
     messages = history + [{"role": "user", "content": question}]
     response = client.chat.completions.create(
         model=model_name,

@@ -17,7 +17,7 @@ LLM_CONFIG = {
 NEO4J_CONFIG = {
     "uri": "bolt://localhost:7687",
     "user": "neo4j",
-    "password": "hfx_1234"  # 您的Neo4j密码
+    "password": "test123456"  # 您的Neo4j密码
 }
 
 # 本地嵌入配置

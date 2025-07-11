@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, jsonify
 import requests
 from openai import OpenAI
 from langchain.prompts import ChatPromptTemplate
-from utils import context_aware_kg_qa,extract_cypher_from_llm_output,configure_neo4j
+from utils import context_aware_kg_qa,extract_cypher_from_llm_output,configure_neo4j,graph_rag_fun
 from config import LLM_CONFIG
 app = Flask(__name__)
 API_KEY = LLM_CONFIG["API_KEY"]

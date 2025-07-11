@@ -58,7 +58,7 @@ def load_graph_from_json(file_hash: str) -> nx.Graph:
     return None
 
 # 获取相关节点和关系
-def get_relevant_nodes_and_relations(graph, question, allowed_nodes, allowed_relationships):
+def get_relevant_nodes_and_relations( question, allowed_nodes, allowed_relationships):
     # 1. 对问题进行分词
     keywords = jieba.lcut(question)
     key_terms = [word for word in keywords if len(word) >= 2]  # 只保留长度>=2的词

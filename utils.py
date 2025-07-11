@@ -1,17 +1,20 @@
 
 from knowledge_graph_utils import build_dynamic_cypher_query, get_relevant_nodes_and_relations, load_graph_from_json, get_graph_overview, get_neo4j_driver, search_nodes_by_name
-from api_utils import LocalEmbeddings, test_api_connection, test_embeddings, get_api_client, get_context_aware_response, query_knowledge_graph, clean_api_response
+from api_utils import LocalEmbeddings, test_api_connection, test_embeddings, get_api_client, get_context_aware_response, query_knowledge_graph, clean_api_response,get_context_aware_response_stream
 import re
 from openai import OpenAI
 from config import LLM_CONFIG,  EMBEDDING_CONFIG, NEO4J_CONFIG,GRAPH_CONFIG
-from langchain_neo4j import Neo4jGraph
-
+# from langchain_neo4j import Neo4jGraph
+from py2neo import Graph, Node, Relationship
+API_KEY = LLM_CONFIG["API_KEY"]
+LLM_API_URL = LLM_CONFIG["API_URL"]
+Model_name = LLM_CONFIG["Model"]
 def graph_rag_fun(cypher_query, graph):
     search_result = None
     full_stream_text = None
     
     try:
-        search_result = graph.query(cypher_query)
+        search_result = graph.run(cypher_query).data()
         if search_result and len(search_result) > 0:
             print(f"🔍 查看查询结果 ({len(search_result)} 条)")
             import json
@@ -28,18 +31,17 @@ def graph_rag_fun(cypher_query, graph):
             if not display_list and search_result:
                 # 如果第一条就超长，至少展示一条
                 display_list = [search_result[0]]
-            summary_prompt = f"用户问题：{latest_user_message}\n查询结果：{search_result[:8]}\n请用中文总结这些结果。"
+            summary_prompt = f"用户问题：{''}\n查询结果：{search_result[:8]}\n请用中文总结这些结果。"
             print(summary_prompt)
             try:
                 print("**🤖 AI智能总结：**")
-    
+                client = OpenAI(api_key=API_KEY, base_url=LLM_API_URL)
                 full_stream_text = ""
                 for chunk in get_context_aware_response_stream(
                     question=summary_prompt,
                     history=[],
-                    api_type=api_type,
-                    api_key=api_key,
-                    model_name=model_name,
+                    client=client,
+                    model_name=Model_name,
                     max_tokens=2000
                 ):
                     full_stream_text += chunk 
@@ -56,15 +58,10 @@ def graph_rag_fun(cypher_query, graph):
     
 def configure_neo4j():
     """配置Neo4j连接"""
-    neo4j_uri = GRAPH_CONFIG["uri"]
-    neo4j_username =  GRAPH_CONFIG["user"]
-    neo4j_password =  GRAPH_CONFIG["password"]
-    graph = Neo4jGraph(
-        url=neo4j_uri,
-        username=neo4j_username,
-        password=neo4j_password
-    )
- 
+    neo4j_uri = NEO4J_CONFIG["uri"]
+    neo4j_username =  NEO4J_CONFIG["user"]
+    neo4j_password =  NEO4J_CONFIG["password"]
+    graph = Graph(neo4j_uri, auth=(neo4j_username, neo4j_password))
     
     return graph
 
@@ -119,12 +116,12 @@ def context_aware_kg_qa(prompt, graph, qa_system=None, history=[]):
 
     # 2. 基于关键词查询图谱
     relevant_info = get_relevant_nodes_and_relations(
-        graph, prompt, GRAPH_CONFIG['allowed_nodes'], GRAPH_CONFIG['allowed_relationships']
+         prompt, GRAPH_CONFIG['allowed_nodes'], GRAPH_CONFIG['allowed_relationships']
     )
     cypher_query = build_dynamic_cypher_query(relevant_info, prompt)
     cypher_query = ensure_cypher_limit(cypher_query, limit=20)
     try:
-        query_result = graph.query(cypher_query)
+        query_result = graph.run(cypher_query).data()
     except Exception as e:
         query_result = [f"Cypher查询失败: {str(e)}"]
 
