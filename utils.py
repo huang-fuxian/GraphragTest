@@ -6,7 +6,54 @@ from openai import OpenAI
 from config import LLM_CONFIG,  EMBEDDING_CONFIG, NEO4J_CONFIG,GRAPH_CONFIG
 from langchain_neo4j import Neo4jGraph
 
-
+def graph_rag_fun(cypher_query, graph):
+    search_result = None
+    full_stream_text = None
+    
+    try:
+        search_result = graph.query(cypher_query)
+        if search_result and len(search_result) > 0:
+            print(f"🔍 查看查询结果 ({len(search_result)} 条)")
+            import json
+            max_display = 10
+            max_chars = 4000
+            display_list = []
+            total_chars = 0
+            for item in search_result[:max_display]:
+                item_str = json.dumps(item, ensure_ascii=False)
+                if total_chars + len(item_str) > max_chars:
+                    break
+                display_list.append(item)
+                total_chars += len(item_str)
+            if not display_list and search_result:
+                # 如果第一条就超长，至少展示一条
+                display_list = [search_result[0]]
+            summary_prompt = f"用户问题：{latest_user_message}\n查询结果：{search_result[:8]}\n请用中文总结这些结果。"
+            print(summary_prompt)
+            try:
+                print("**🤖 AI智能总结：**")
+    
+                full_stream_text = ""
+                for chunk in get_context_aware_response_stream(
+                    question=summary_prompt,
+                    history=[],
+                    api_type=api_type,
+                    api_key=api_key,
+                    model_name=model_name,
+                    max_tokens=2000
+                ):
+                    full_stream_text += chunk 
+                if full_stream_text and len(full_stream_text.strip()) > 5:
+                    print(f"✅ AI总结生成成功:{full_stream_text}")
+                    
+                else:
+                    print("AI总结内容为空")
+            except Exception as e:
+                print(f"AI总结失败: {str(e)}") 
+    except Exception as e:
+        print(f"❌ Cypher 执行出错: {str(e)}")
+    return search_result, full_stream_text
+    
 def configure_neo4j():
     """配置Neo4j连接"""
     neo4j_uri = GRAPH_CONFIG["uri"]

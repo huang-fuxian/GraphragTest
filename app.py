@@ -52,7 +52,17 @@ def ask():
     graph = configure_neo4j()
     response = context_aware_kg_qa(user_input, graph)
     cypher_query = extract_cypher_from_llm_output(response)
-    answer = call_qwen(user_input)  # 调用Qwen模型
+    if cypher_query: 
+        print(f"📝 查看Cypher查询语句:{cypher_query}")
+        search_result, full_stream_text = graph_rag_fun(cypher_query,graph)
+        if full_stream_text==None:
+            answer = response
+        else:
+            answer = full_stream_text
+    else:
+        answer = response
+
+    # answer = call_qwen(user_input)  # 调用Qwen模型
     return jsonify({"answer": answer})
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

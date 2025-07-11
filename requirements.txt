@@ -1,5 +1,6 @@
 flask==3.0.3
 requests==2.32.0
+# 核心依赖
 langchain
 langchain-community
 langchain-core
@@ -15,15 +16,44 @@ networkx
 scikit-learn
 scipy
 
-dataclasses-json
-json_repair
-jsonschema
-
 # 数据库
 neo4j
 py2neo
 SQLAlchemy
 
+# Web框架和可视化
+streamlit
+streamlit-plotly-events
+plotly
+altair
+
+# PDF处理
+pypdf
+
+# AI模型相关
+torch
+transformers
+sentence-transformers
+tiktoken
+
+# 工具包
+pydantic
+requests
+python-dateutil
+tqdm
+PyYAML
+
+# JSON处理
+dataclasses-json
+json_repair
+jsonschema
+
+# 文件处理
+watchdog
+fsspec
+filelock
+
+# 知识图谱和NLP
 langchain-neo4j
 jieba
 
@@ -34,8 +64,26 @@ jieba
 matplotlib
 seaborn
 
+# 异步支持
+aiohttp
+asyncio-mqtt
 
-torch
-transformers
-sentence-transformers
-tiktoken
+# 配置管理
+hydra-core
+omegaconf
+
+# 日志和监控
+structlog
+prometheus-client
+
+# 缓存
+redis
+diskcache
+
+# 安全
+cryptography
+passlib
+
+# MCP协议支持
+mcp>=1.0.0
+mcp-neo4j-cypher>=0.1.0
