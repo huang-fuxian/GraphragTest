@@ -1,0 +1,20 @@
+
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Python: Streamlit Debug",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "streamlit",  // 关键：必须用streamlit模块
+      "args": [
+        "run",
+        "app-deepseek-json.py",   // 替换为你的脚本路径
+        "--server.address", "127.0.0.1",
+        "--server.port", "8501"
+      ],
+      "console": "integratedTerminal",
+      "justMyCode": true
+    }
+  ]
+}
