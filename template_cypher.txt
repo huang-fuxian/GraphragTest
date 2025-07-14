@@ -1,0 +1,145 @@
+command = """LOAD CSV WITH HEADERS FROM 'file:///projects200.csv' AS row
+WITH
+trim(row.项目名称) AS projectName,
+trim(row.建筑面积) AS area,
+trim(row.图片) AS image,
+trim(row.链接) AS link,
+trim(row.大跨) AS longSpan,
+trim(row.跨度) AS span,
+trim(row.高层) AS highRise,
+trim(row.层数) AS floors,
+trim(row.高度) AS height,
+trim(row.状态) AS status
+WHERE projectName IS NOT NULL AND projectName <> '' AND projectName <> '\'
+
+MERGE (p:项目 {名称: projectName})
+SET
+p.建筑面积 = area,
+p.图片 = image,
+p.链接 = link,
+p.大跨 = longSpan,
+p.跨度 = span,
+p.高层 = highRise,
+p.层数 = floors,
+p.高度 = height,
+p.状态 = status;
+
+"""
+
+
+command=
+"""
+LOAD CSV WITH HEADERS FROM 'file:///projects200.csv' AS row
+WITH 
+  trim(row.项目名称) AS projectName,
+  trim(row.功能) AS function,
+  trim(row.国家) AS country,
+  trim(row.城市) AS city,
+  trim(row.面积分级) AS areaLevel,
+  trim(row.建成年份) AS year
+WHERE projectName IS NOT NULL AND projectName <> '' AND projectName <> '\'
+
+MATCH (p:项目 {名称: projectName})
+
+FOREACH (_ IN CASE WHEN function IS NOT NULL AND function <> "" THEN [1] ELSE [] END |
+  MERGE (f:功能 {名称: function})
+  MERGE (p)-[:功能]->(f)
+)
+
+FOREACH (_ IN CASE WHEN country IS NOT NULL AND country <> "" THEN [1] ELSE [] END |
+  MERGE (c:国家 {名称: country})
+  MERGE (p)-[:国家]->(c)
+)
+
+FOREACH (_ IN CASE WHEN city IS NOT NULL AND city <> "" THEN [1] ELSE [] END |
+  MERGE (ci:城市 {名称: city})
+  MERGE (p)-[:城市]->(ci)
+)
+
+FOREACH (_ IN CASE WHEN areaLevel IS NOT NULL AND areaLevel <> "" THEN [1] ELSE [] END |
+  MERGE (a:面积分级 {名称: areaLevel})
+  MERGE (p)-[:面积分级]->(a)
+)
+
+FOREACH (_ IN CASE WHEN year IS NOT NULL AND year <> "" THEN [1] ELSE [] END |
+  MERGE (y:建成年份 {名称: year})
+  MERGE (p)-[:建成年份]->(y)
+)
+"""
+
+
+
+command="""
+LOAD CSV WITH HEADERS FROM 'file:///projects200.csv' AS row
+WITH trim(row.项目名称) AS projectName,
+     [row.建筑师团队1, row.建筑师团队2, row.建筑师团队3, row.建筑师团队4] AS teams
+WHERE projectName IS NOT NULL AND projectName <> ""
+
+MATCH (p:项目 {名称: projectName})
+UNWIND teams AS team
+WITH p, trim(team) AS name
+WHERE name IS NOT NULL AND name <> '' AND name <> '\'
+MERGE (a:建筑师团队 {名称: name})
+MERGE (p)-[:建筑师团队]->(a)
+"""
+
+
+command="""
+LOAD CSV WITH HEADERS FROM 'file:///projects200.csv' AS row
+WITH trim(row.项目名称) AS projectName,
+     [row.结构类型1, row.结构类型2] AS structureList
+WHERE projectName IS NOT NULL AND projectName <> ""
+
+MATCH (p:项目 {名称: projectName})
+UNWIND structureList AS st
+WITH p, trim(st) AS stname
+WHERE stname IS NOT NULL AND stname <> '' AND stname <> '\'
+MERGE (s:结构类型 {名称: stname})
+MERGE (p)-[:结构类型]->(s)
+"""
+
+
+command = """
+LOAD CSV WITH HEADERS FROM 'file:///projects200.csv' AS row
+WITH trim(row.项目名称) AS projectName,
+     split(coalesce(row.结构工程, ""), "，") + split(coalesce(row.结构工程, ""), ",") AS engineers
+WHERE projectName IS NOT NULL AND projectName <> ""
+
+MATCH (p:项目 {名称: projectName})
+UNWIND engineers AS e
+WITH p, trim(e) AS ename
+WHERE ename IS NOT NULL AND ename <> '' AND ename <> '\'
+MERGE (en:结构工程 {名称: ename})
+MERGE (p)-[:结构工程]->(en)
+"""
+
+command="""
+LOAD CSV WITH HEADERS FROM 'file:///projects200.csv' AS row
+WITH trim(row.项目名称) AS projectName,
+     split(coalesce(row.施工, ""), "，") + split(coalesce(row.施工, ""), ",") AS builders
+WHERE projectName IS NOT NULL AND projectName <> ""
+
+MATCH (p:项目 {名称: projectName})
+UNWIND builders AS b
+WITH p, trim(b) AS bname
+WHERE bname IS NOT NULL AND bname <> '' AND bname <> '\'
+MERGE (bu:施工 {名称: bname})
+MERGE (p)-[:施工]->(bu)
+"""
+
+
+command = """
+LOAD CSV WITH HEADERS FROM 'file:///projects200.csv' AS row
+WITH trim(row.项目名称) AS projectName,
+     split(coalesce(row.厂家, ""), "，") + split(coalesce(row.厂家, ""), ",") AS factories
+WHERE projectName IS NOT NULL AND projectName <> ""
+
+MATCH (p:项目 {名称: projectName})
+UNWIND factories AS f
+WITH p, trim(f) AS fname
+WHERE fname IS NOT NULL AND fname <> '' AND fname <> '\'
+MERGE (fa:厂家 {名称: fname})
+MERGE (p)-[:厂家]->(fa)
+"""
+
+

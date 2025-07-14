@@ -58,7 +58,7 @@ def load_graph_from_json(file_hash: str) -> nx.Graph:
     return None
 
 # 获取相关节点和关系
-def get_relevant_nodes_and_relations( question, allowed_nodes, allowed_relationships):
+def get_relevant_nodes_and_relations( question, allowed_nodes, allowed_relationships, allowed_property):
     # 1. 对问题进行分词
     keywords = jieba.lcut(question)
     key_terms = [word for word in keywords if len(word) >= 2]  # 只保留长度>=2的词
@@ -74,23 +74,35 @@ def get_relevant_nodes_and_relations( question, allowed_nodes, allowed_relations
     for relation in allowed_relationships:
         if any(term.lower() in relation.lower() for term in key_terms):
             relevant_relations.append(relation)
+    
+    # property_keys = []
+    # for prop in allowed_property:
+    #     if any(term.lower() in prop.lower() for term in key_terms):
+    #         property_keys.append(prop)
 
     return {
         "nodes": relevant_nodes,
-        "relations": relevant_relations
+        "relationships": relevant_relations,
+        "Property keys":allowed_property,
+        "keywords":key_terms,
+        "question":question
     }
 
 # 构建动态Cypher查询
 def build_dynamic_cypher_query(relevant_info: Dict[str, Any], question: str) -> str:
     """构建动态Cypher查询"""
     nodes = relevant_info.get("nodes", [])
-    relations = relevant_info.get("relations", [])
+    relations = relevant_info.get("relationships", [])
     keywords = relevant_info.get("keywords", [])
+    property_keys = relevant_info.get("Property keys", [])
     
     # 构建关键词匹配条件
     keyword_conditions = []
     for keyword in keywords[:5]:  # 限制关键词数量
-        keyword_conditions.append(f"n.text CONTAINS '{keyword}'")
+        # for prop in property_keys:
+        #     keyword_conditions.append(f"n.{prop} CONTAINS '{keyword}'")        
+
+        # keyword_conditions.append(f"n.text CONTAINS '{keyword}'")        
         keyword_conditions.append(f"n.id CONTAINS '{keyword}'")
         keyword_conditions.append(f"n.name CONTAINS '{keyword}'")
         keyword_conditions.append(f"n.名称 CONTAINS '{keyword}'")
@@ -98,12 +110,18 @@ def build_dynamic_cypher_query(relevant_info: Dict[str, Any], question: str) -> 
     keyword_match = " OR ".join(keyword_conditions) if keyword_conditions else "1=1"
     
     # 主要查询：基于关键词匹配
+    # main_query = f"""
+    # MATCH (n)
+    # WHERE {keyword_match}
+    # WITH n
+    # ORDER BY size(n.text) DESC
+    # LIMIT 10
+    # OPTIONAL MATCH (n)-[r]-(related)
+    # WITH n, r, related
+    # """
     main_query = f"""
     MATCH (n)
     WHERE {keyword_match}
-    WITH n
-    ORDER BY size(n.text) DESC
-    LIMIT 10
     OPTIONAL MATCH (n)-[r]-(related)
     WITH n, r, related
     """
@@ -124,9 +142,12 @@ def build_dynamic_cypher_query(relevant_info: Dict[str, Any], question: str) -> 
     # 返回结果
     return_query = """
     RETURN DISTINCT n, r, related
-    ORDER BY n.text
-    LIMIT 50
     """
+    # return_query = """
+    # RETURN DISTINCT n, r, related
+    # ORDER BY n.text
+    # LIMIT 50
+    # """    
     
     full_query = main_query + filter_query + return_query
     return full_query

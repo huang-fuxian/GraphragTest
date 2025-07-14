@@ -2,14 +2,14 @@ from flask import Flask, render_template, request, jsonify
 import requests
 from openai import OpenAI
 from langchain.prompts import ChatPromptTemplate
-from utils import context_aware_kg_qa,extract_cypher_from_llm_output,configure_neo4j,graph_rag_fun
+from utils import context_aware_kg_qa,extract_cypher_from_llm_output,configure_neo4j,graph_rag_fun,simple_extract_cypher
 from config import LLM_CONFIG
 app = Flask(__name__)
 API_KEY = LLM_CONFIG["API_KEY"]
 LLM_API_URL = LLM_CONFIG["API_URL"]
 Model_name = LLM_CONFIG["Model"]
 
-def call_qwen(prompt):
+def call_llm_model(prompt):
     client = OpenAI(api_key=API_KEY, base_url=LLM_API_URL)
     
     # 发送请求到模型
@@ -50,19 +50,18 @@ def ask():
     
     
     graph = configure_neo4j()
-    response = context_aware_kg_qa(user_input, graph)
-    cypher_query = extract_cypher_from_llm_output(response)
+    response = context_aware_kg_qa(user_input)
+    cypher_query = simple_extract_cypher(response)
     if cypher_query: 
         print(f"📝 查看Cypher查询语句:{cypher_query}")
-        search_result, full_stream_text = graph_rag_fun(cypher_query,graph)
+        search_result, full_stream_text = graph_rag_fun(cypher_query,graph,user_input)
         if full_stream_text==None:
-            answer = response
+            answer = call_llm_model(user_input)   
         else:
             answer = full_stream_text
     else:
-        answer = response
+        answer = call_llm_model(user_input) 
 
-    # answer = call_qwen(user_input)  # 调用Qwen模型
     return jsonify({"answer": answer})
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
