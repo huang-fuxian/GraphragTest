@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import json
 import streamlit as st  
 from openai import OpenAI   
@@ -56,23 +57,30 @@ if prompt := st.chat_input():
     st.session_state.messages.append({"role": "user", "content": prompt})  
     st.chat_message("user").write(prompt)  
 
-
+    with open("log.txt", 'a+', encoding='utf-8') as f:
+        f.write(f"-*"*50+ "\n")
+        f.write(f"question:{prompt} \n")
     graph = configure_neo4j()
     response = context_aware_kg_qa(prompt)
     cypher_query = simple_extract_cypher(response)
     full_stream_text = None
     search_result = None
     if cypher_query: 
+        with open("log.txt", 'a+', encoding='utf-8') as f:
+            f.write(f"cypher:{cypher_query} \n")
+
         print(f"📝 查看Cypher查询语句:{cypher_query}")
         try:
             search_result, full_stream_text = graph_rag_fun(cypher_query,graph,prompt)
         except:
             print('rag fail')
-
+    else:
+        with open("log.txt", 'a+', encoding='utf-8') as f:
+            f.write(f"cypher:Not found \n")
    
     # 调用DeepSeek API  
     if full_stream_text!=None:
-        content = full_stream_text
+        content = full_stream_text 
     else:
         response = client.chat.completions.create(  
             model=Model_name,  
@@ -88,7 +96,8 @@ if prompt := st.chat_input():
                     content += chunk_content  # 将内容累加到总内容中
         else:
             raise ValueError("Unexpected response structure")
-    
+    with open("log.txt", 'a+', encoding='utf-8') as f:
+        f.write(f"response:{content} \n")
     assistant_reply = content  
     st.session_state.messages.append({"role": "assistant", "content": assistant_reply})  
     st.chat_message("assistant").write(assistant_reply)
