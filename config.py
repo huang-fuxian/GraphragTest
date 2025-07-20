@@ -16,10 +16,16 @@ LLM_CONFIG = {
 }
 
 # Neo4j配置 - 请在这里设置您的Neo4j密码
-NEO4J_CONFIG = {
+NEO4J_CONFIG = {"DB1":{
     "uri": "bolt://localhost:7687",
     "user": "neo4j",
     "password": "test123456"  # 您的Neo4j密码
+},
+"DB2":{
+    "uri": "bolt://localhost:7687",
+    "user": "neo4j",
+    "password": "test123456"  # 您的Neo4j密码
+},
 }
 
 # 本地嵌入配置
@@ -31,6 +37,7 @@ EMBEDDING_CONFIG = {
 }
 
 GRAPH_CONFIG = {
+    "fuzzy_words":["功能", "木材类型", "树种", "建筑特色", "连接方式", "建筑师团队", "结构类型","隈研吾","壳结构"],
     'allowed_nodes': [
         # "功能", "厂家", "国家", "城市", "建成年份",
         # "建筑师团队", "建筑特色", "施工", "研究内容", "结构工程",

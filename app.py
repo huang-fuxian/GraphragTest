@@ -4,6 +4,7 @@ import streamlit as st
 from openai import OpenAI   
 from utils import context_aware_kg_qa,extract_cypher_from_llm_output,configure_neo4j,graph_rag_fun,simple_extract_cypher,get_context_aware_response_stream
 from config import LLM_CONFIG
+from utils import deduplicate_dicts
 
 API_KEY = LLM_CONFIG["API_KEY"]
 LLM_API_URL = LLM_CONFIG["API_URL"]
@@ -20,7 +21,31 @@ st.set_page_config(
 #     st.session_state.messages.append({"role": "user", "content": prompt})
     # 处理用户输入的代码将保持在这里...
 # 在侧边栏添加配置选项  
+# 定义预设参数选项
+PARAM_OPTIONS = ["DB1", "DB2"]
 with st.sidebar:  
+
+    st.subheader("Database选择")  # 侧边栏子标题
+    selected_param = st.selectbox(
+        label="请选择一个数据库：",
+        options=PARAM_OPTIONS,
+        index=0,  # 默认选中第一个选项
+        help="从预设数据库中选择其一"
+    )
+    st.divider()  # 添加分隔线增强视觉效果
+
+    # 主内容区域显示选择结果
+    # st.title("参数选择结果展示")
+    # st.write(f"### 当前选择的参数是：**{selected_param}**")
+
+
+    
+    try:
+        graph = configure_neo4j(selected_param) 
+        st.success(f"已选择{selected_param}，连接成功")
+    except:
+        st.warning(f"已选择{selected_param}，连接失败")
+    # 这里可以添加参数B的专属功能或数据展示
     # 提供一个文本输入框让用户可以手动输入API Key（可选）  
     # openai_api_key = st.text_input("DeepSeek API Key", key="chatbot_api_key", type="password")  
     # "[获取 DeepSeek API key](https://platform.deepseek.com/api_keys)"  
@@ -37,7 +62,7 @@ with st.sidebar:
     st.subheader("历史对话")  
     if "history_conversations" in st.session_state:  
         conv_num = len(st.session_state.history_conversations)
-        for idx in range(conv_num,-1,-1):
+        for idx in range(conv_num-1,-1,-1):
             if st.button(f"对话 {idx + 1}", key=f"load_conv_{idx}"):  
                 st.session_state.messages = st.session_state.history_conversations[idx]  
         # for idx, conv in enumerate(st.session_state.history_conversations):  
@@ -64,17 +89,32 @@ if prompt := st.chat_input():
     with open("log.txt", 'a+', encoding='utf-8') as f:
         f.write(f"-*"*50+ "\n")
         f.write(f"question:{prompt} \n")
-    graph = configure_neo4j()
+    
     with st.spinner("🤔 正在分析您的问题..."):
         response_query = context_aware_kg_qa(prompt)
-        cypher_query = simple_extract_cypher(response_query)
+        if isinstance(response_query,list):
+            cypher_query=[]
+            for rq in response_query:
+                cq = simple_extract_cypher(rq)
+                cypher_query.append(cq)
+        else:
+            cypher_query = simple_extract_cypher(response_query)
         content = ""
         full_stream_text = ""
         result = None
       
         if cypher_query: 
             try:
-                result = graph.run(cypher_query).data()
+                if isinstance(cypher_query,list):
+                    result_list = []
+                    for idx,cq in enumerate(cypher_query): 
+                        cq = simple_extract_cypher(cq)
+                        print(f"Cypher语句{idx}:{cq}\n")
+                        result = graph.run(cq).data()
+                        result_list.extend(result)
+                    result=deduplicate_dicts(result_list)
+                else:
+                    result = graph.run(cypher_query).data()
                 if result and len(result)>0:
                     st.markdown("**🔍 查询结果：**")
                     with st.expander(f"🔍 查看查询结果 ({len(result)} 条)", expanded=False):
@@ -94,7 +134,11 @@ if prompt := st.chat_input():
                             display_list = [result[0]]
                         st.json(display_list)
                     with st.expander("📝 查看Cypher查询语句", expanded=False):
-                        st.code(cypher_query, language="cypher")
+                        if isinstance(cypher_query,list):
+                            for cq in cypher_query:
+                                st.code(cq, language="cypher")
+                        else:
+                            st.code(cypher_query, language="cypher")
                     summary_prompt = f"用户问题：{prompt}\n查询结果：{result[:8]}\n请用中文总结这些结果。"
                     try:
                         st.markdown("**🤖 AI智能总结：**")

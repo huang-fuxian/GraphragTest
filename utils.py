@@ -60,23 +60,24 @@ def graph_rag_fun(cypher_query, graph, question):
         print(f"❌ Cypher 执行出错: {str(e)}")
     return search_result, full_stream_text
     
-def configure_neo4j():
+def configure_neo4j(db_name):
     """配置Neo4j连接"""
-    neo4j_uri = NEO4J_CONFIG["uri"]
-    neo4j_username =  NEO4J_CONFIG["user"]
-    neo4j_password =  NEO4J_CONFIG["password"]
+    neo4j_uri = NEO4J_CONFIG[db_name]["uri"]
+    neo4j_username =  NEO4J_CONFIG[db_name]["user"]
+    neo4j_password =  NEO4J_CONFIG[db_name]["password"]
     graph = Graph(neo4j_uri, auth=(neo4j_username, neo4j_password))
     
     return graph
 
 def simple_extract_cypher(input_str):
-    if input_str.startswith("```"):
+    if input_str.strip().startswith("```"):
         cypher_block = input_str.split("```")[1]
     else:
         cypher_block = input_str
     # 移除首尾空白及开头的"cypher"标记
-    if cypher_block.startswith("cypher\n"):
-        cypher_block = cypher_block[7:]  # 移除"cypher\n"
+    if cypher_block.startswith("cypher"):
+        cypher_block = cypher_block[6:]  # 移除"cypher\n"
+ 
     return cypher_block.strip().replace("\n", " ")
 
 def extract_cypher_from_llm_output(llm_output):
@@ -662,29 +663,29 @@ def old_prompt(relevant_info):
 
 def example():
     return """
-        # 查询特定功能的项目：
+        # 查询功能为办公的项目：
         MATCH (p:项目)-->(f:功能 {名称: '办公'}) RETURN p
         
-        # 查询特定国家的项目：
+        # 查询国家为中国的项目：
         MATCH (p:项目)-->(c:国家 {名称: '中国'}) RETURN p
         
-        # 查询特定结构类型：
+        # 查询结构类型为钢结构：
         MATCH (p:项目)-->(s:结构类型 {名称: '钢结构'}) RETURN p
         
-        # 查询特定年份的项目：
+        # 查询建成年份为202的项目：
         MATCH (p:项目)-->(y:建成年份 {名称: '2020'}) RETURN p
         
-        # 查询特定建筑师团队：
-        MATCH (p:项目)-->(a:建筑师团队 {名称: '团队名称'}) RETURN p
+        # 查询建筑师团队为abba：
+        MATCH (p:项目)-->(a:建筑师团队 {名称: 'abba'}) RETURN p
         
         # 查询项目及其所有关联信息：
         MATCH (p:项目)-[r]-(n) RETURN p, r, n
         
-        # 查询特定城市的项目：
-        MATCH (p:项目)-[:城市]->(c:城市 {名称: '北京'}) RETURN p
+        # 查询城市名称为北京的项目：
+        MATCH (p:项目)-->(c:城市 {名称: '北京'}) RETURN p
         
-        # 查询特定面积分级：
-        MATCH (p:项目)-[:面积分级]->(a:面积分级 {名称: '大型'}) RETURN p
+        # 查询面积分级为大型的项目：
+        MATCH (p:项目)-->(a:面积分级 {名称: '大型'}) RETURN p
         
         # 查询有某属性的项目：
         MATCH (p:项目) WHERE p.高层 IS NOT NULL RETURN p
@@ -695,17 +696,17 @@ def example():
         # 查询建筑面积大于10000的项目：
         MATCH (p:项目) WHERE toInteger(p.建筑面积) > 10000 RETURN p
         
-        # 查询使用特定树种的项目：
+        # 查询使用树种为松木的项目：
         MATCH (p:项目)-->(t:树种 {名称: '松木'}) RETURN p
         
-        # 查询使用特定木材类型的项目：
+        # 查询使用木材类型为CLT的项目：
         MATCH (p:项目)-->(m:木材类型 {名称: 'CLT'}) RETURN p
         
-        # 查询特定连接方式的项目：
+        # 查询连接方式为榫卯连接的项目：
         MATCH (p:项目)-->(c:连接方式 {名称: '榫卯连接'}) RETURN p
         
         # 查询结构类型的层次关系：
-        MATCH (s1:结构类型)-[:包含]->(s2:结构类型) RETURN s1, s2
+        MATCH (s1:结构类型)-->(s2:结构类型) RETURN s1, s2
         
         # 查询木材类型的别名：
         MATCH (m:木材类型)-[:具有别名]->(a:别名) RETURN m, a
@@ -714,10 +715,10 @@ def example():
         MATCH (m)-[:used_in]->(c:构件 {名称: '梁'}) RETURN m, c
         
         # 查询特定应用场景的木材类型：
-        MATCH (m:木材类型)-[:应用场景]->(a:应用场景 {描述: '结构构件'}) RETURN m, a
+        MATCH (m:木材类型)-->(a:应用场景 {描述: '结构构件'}) RETURN m, a
 
         # 查询使用CLT且层数大于5的项目：
-        MATCH (p:项目)-[:木材类型]->(m:木材类型 {名称: '正交胶合木(CLT)'})
+        MATCH (p:项目)-->(m:木材类型 {名称: '正交胶合木(CLT)'})
             WHERE toInteger(p.层数) > 5
             RETURN p
 
@@ -730,7 +731,7 @@ def example():
             RETURN t, f
 
         # 查询使用特定连接方式的高层项目：
-        MATCH (p:项目)-[:连接方式]->(c:连接方式 {名称: '榫卯连接'})
+        MATCH (p:项目)-->(c:连接方式 {名称: '榫卯连接'})
             WHERE p.高层 IS NOT NULL
             RETURN p, c
 
@@ -741,7 +742,7 @@ def example():
         MATCH (p:项目) WHERE toInteger(p.层数) > 10 RETURN p
         
         # 查找使用CLT的项目:
-        MATCH (p:项目)-[:木材类型]->(m:木材类型 {名称: '正交胶合木(CLT)'}) RETURN p
+        MATCH (p:项目)-->(m:木材类型 {名称: '正交胶合木(CLT)'}) RETURN p
         
         # 查询大跨木结构的所有子类型:
         Cypher：MATCH (s1:结构类型 {名称: '大跨木结构'})-[:包含]->(s2:结构类型) RETURN s2
@@ -750,7 +751,19 @@ def example():
         Cypher：MATCH (p:项目)-->(m:结构类型 {名称: '壳结构'}) WHERE p.大跨 IS NOT NULL RETURN p
 
     """
-def context_aware_kg_qa(prompt):
+def deduplicate_dicts(dict_list):
+    seen = set()
+    result = []
+    for d in dict_list:
+        # 将字典转为可哈希的元组
+        d_tuple = tuple(sorted(d.items()))
+        if d_tuple not in seen:
+            seen.add(d_tuple)
+            result.append(d)
+    return result
+
+# 输出: [{'a': 1}, {'b': 2}]
+def context_aware_kg_qa(question):
     """
     同步方式：结合Neo4j知识图谱和历史上下文，生成大模型回答
     """
@@ -762,7 +775,7 @@ def context_aware_kg_qa(prompt):
     # relevant_info = get_relevant_nodes_and_relations(
     #      prompt, GRAPH_CONFIG['allowed_nodes'], GRAPH_CONFIG['allowed_relationships'], GRAPH_CONFIG['allowed_properties']
     # )
-    relevant_info={"question":prompt,
+    relevant_info={"question":question,
                    **GRAPH_CONFIG}
     # cypher_query = build_dynamic_cypher_query(relevant_info, prompt)
     # cypher_query = ensure_cypher_limit(cypher_query, limit=20)
@@ -773,13 +786,16 @@ def context_aware_kg_qa(prompt):
 
     # 3. 构造大模型输入
     prompt = old_prompt(relevant_info)
-    keywords = jieba.lcut(prompt)
+    fuzzy_nodes = GRAPH_CONFIG["fuzzy_words"]
+    for word in fuzzy_nodes:
+        jieba.add_word(word, freq=10000)
+    keywords = jieba.lcut(question)
     key_terms = [word for word in keywords if len(word) >= 2]
     
     # messages += history
     # messages.append({"role": "user", "content": prompt})
     ##功能 木材类型 树种 建筑特色 连接方式 建筑师团队 结构类型(模糊查询)
-    fuzzy_nodes = ["功能", "木材类型", "树种", "建筑特色", "连接方式", "建筑师团队", "结构类型"]
+    
     fuzzy_idx, fuzzy_key, fuzzy_value = None, None, None
     for idx,kv  in enumerate(key_terms[:-1]):
         if kv in fuzzy_nodes:
@@ -789,11 +805,13 @@ def context_aware_kg_qa(prompt):
     if fuzzy_idx!=None:
         fuzzy_value = key_terms[fuzzy_idx+1]
     # # 4. 构造历史消息
-    fuzzy_prompt=""
+    # fuzzy_methods = ["CONTAINS", "STARTS WITH","ENDS WITH","REGEX"]
+    fuzzy_methods = ["CONTAINS", "STARTS WITH","ENDS WITH"]
+    fuzzy_examples=[]
     if fuzzy_value!=None:
-        fuzzy_examples = fuzzy_fun(fuzzy_key,fuzzy_value)
-    
-    prompt = prompt 
+        fuzzy_examples = fuzzy_fun(fuzzy_key,fuzzy_value,fuzzy_methods)
+        
+
     messages = [{"role": "user", "content": prompt}]
     # 5. 调用大模型
     client = get_api_client()
@@ -811,14 +829,47 @@ def context_aware_kg_qa(prompt):
     for chunk in response:
         content = chunk.choices[0].delta.content or ""
         full_response += content
-        placeholder.markdown(full_response)  # 实时更新占位区域
+        # placeholder.markdown(full_response)  # 实时更新占位区域
     
+    full_response_list = []
+    if full_response.strip() != "" and len(fuzzy_examples)>0:
+        full_response_list.append(full_response)
+        for fuzz_method,fuzz_exp in zip(fuzzy_methods,fuzzy_examples):
+            fuzzy_prompt=get_fuzzy_prompt(question,full_response,fuzz_method,fuzz_exp)
+            messages = [{"role": "user", "content": fuzzy_prompt}]
+            response = client.chat.completions.create(
+            model=LLM_CONFIG["Model"],
+            messages=messages,
+            max_tokens=200,  # 适中的长度
+            temperature=0.3,  # 降低随机性，提高速度
+            stream=True
+        )
+            placeholder = st.empty()  # 创建占位区域
+            # placeholder.markdown("Cypher查询语句：")
+            full_response = ""
+            for chunk in response:
+                content = chunk.choices[0].delta.content or ""
+                full_response += content
+                # placeholder.markdown(full_response)  # 实时更新占位区域
+            full_response_list.append(full_response)
+        if len(full_response_list)==4:
+            last_response = full_response_list[-1]
+            regex_response = last_response.split('ENDS WITH')[0] +  f" =~ '(?i).*{fuzzy_value}.*$' RETURN p"
+            full_response_list.append(regex_response)
+        return full_response_list
+    else:
+        return full_response.strip()
 
-    return full_response.strip()
+def get_fuzzy_prompt(question,full_response,fuzz_method,fuzz_exp):
+    text = f""""
+    请使用{fuzz_method}，来针对问题:{question}生成的查询语句:{full_response}重新生成一个支持该方法模糊查询的cypher语句，请严格参考下面的模糊查询例子的格式，尤其是regex方式:\n
+    {fuzz_exp} \n
+    注意，新生成的cypher语句会直接用于neo4j数据库的查询，请不要输出其它无关内容，直接输出cypher query语句。
+    """
+    return text
 
-
-def fuzzy_fun(fuzzy_key,fuzzy_value):
-    fuzzy_methods = ["CONTAINS", "STARTS WITH","ENDS SWITH","REGEX"]
+def fuzzy_fun(fuzzy_key,fuzzy_value,fuzzy_methods):
+    
     fuzzy_prompt_list = []
     for fz in fuzzy_methods:
         if fz == "CONTAINS":
@@ -858,93 +909,9 @@ def fuzzy_fun(fuzzy_key,fuzzy_value):
 
 def background_knowledge(relevant_info):
     return f'''
-你正在访问的木结构建筑知识图谱，包含以下完整结构：
-
- 核心节点类型：
- 项目 (项目) - 主要实体，包含属性：名称, 建筑面积, 图片, 链接, 大跨, 跨度, 高层, 层数, 高度, 状态
- 功能 (功能) - 项目功能分类
- 国家 (国家) - 项目所在国家
- 城市 (城市) - 项目所在城市
- 面积分级 (面积分级) - 项目面积等级
- 建成年份 (建成年份) - 项目建成年份
- 建筑师团队 (建筑师团队) - 设计团队
- 结构类型 (结构类型) - 建筑结构类型，包含层次关系
- 结构工程 (结构工程) - 结构工程相关
- 施工 (施工) - 施工单位
- 厂家 (厂家) - 材料厂家
- 建筑特色 (建筑特色) - 建筑特色
- 其他材料 (其他材料) - 其他建筑材料
- 构件 (构件) - 建筑构件
- 材料特点 (材料特点) - 材料特点描述
- 连接方式 (连接方式) - 连接方式，包含层次关系
- 定义 (定义) - 各种定义描述
- 树种 (树种) - 木材树种，包含层次关系
- 树种特性 (树种特性) - 树种特性描述
- 木材类型 (木材类型) - 木材类型，包含层次关系
- 木材特点 (木材特点) - 木材特点描述
- 应用场景 (应用场景) - 应用场景描述
- 别名 (别名) - 各种别名
-
- 主要关系类型：
- (项目)-[:功能]->(功能)
- (项目)-[:国家]->(国家)
- (项目)-[:城市]->(城市)
- (项目)-[:面积分级]->(面积分级)
- (项目)-[:建成年份]->(建成年份)
- (项目)-[:建筑师团队]->(建筑师团队)
- (项目)-[:结构类型]->(结构类型)
- (项目)-[:结构工程]->(结构工程)
- (项目)-[:施工]->(施工)
- (项目)-[:厂家]->(厂家)
- (项目)-[:建筑特色]->(建筑特色)
- (项目)-[:其他材料]->(其他材料)
- (项目)-[:树种]->(树种)
- (项目)-[:木材类型]->(木材类型)
- (项目)-[:连接方式]->(连接方式)
-
- 层次关系：
- (结构类型)-[:包含]->(结构类型)    
- (连接方式)-[:包含]->(连接方式)  
- (树种)-[:包含]->(树种)         
- (木材类型)-[:包含]->(木材类型)  
-
- 其他关系：
- (其他材料)-[:used_in]->(构件)
- (其他材料)-[:材料特点]->(材料特点)
- (树种)-[:used_in]->(构件)
- (树种)-[:树种特性]->(树种特性)
- (树种)-[:国家]->(国家)
- (木材类型)-[:used_in]->(构件)
- (木材类型)-[:made_of]->(树种)
- (木材类型)-[:木材特点]->(木材特点)
- (木材类型)-[:应用场景]->(应用场景)
- (木材类型)-[:具有别名]->(别名)
- (结构类型)-[:定义]->(定义)
- (连接方式)-[:定义]->(定义)
-
-  注意事项：
- 
- - 项目节点有额外的属性如建筑面积、图片、链接、大跨、跨度、高层、层数、高度、状态
- - 关系都是单向的，从项目指向其他节点
- - 查询时注意使用正确的节点标签和属性名
- - 数值比较需要使用toInteger()函数转换字符串为数字
- - 木材类型有多个别名，可以通过别名查询
-
- - 这是一个专业的木结构建筑知识图谱，包含项目、材料、结构类型、连接方式等丰富信息
- - 所有节点都有"名称"属性（除了定义、材料特点、树种特性、木材特点、应用场景使用"描述"属性）
- - 项目是主要实体，其他节点通过关系连接到项目
- - 关系方向：项目 -> 其他节点
- - 层次关系使用[:包含]关系，如结构类型、木材类型、树种等都有层次结构
- - 木材类型有多个别名，可以通过别名查询（如CLT、正交胶合木等）
- - 数值比较需要使用toInteger()函数转换字符串为数字
- - 如果不确定具体名称，可以使用模糊查询：WHERE n.名称 CONTAINS '关键词'
- - 如果用户问题中提到"建筑"，则默认指的是"项目"节点。
- - 如果返回的内容中包含"照片"（图片URL或图片标签）和"链接"，请将它们分别单独放在一行，照片在上，链接在下，避免同一行展示。
-
- Graph中真实存在的节点，关系以及属性信息如下，生成的cypher语句务必于下面信息一直，即真实有效：
+你正在访问的木结构建筑知识图谱，包含以下完整结构：\n
+Graph中真实存在的节点，关系以及属性信息如下，生成的cypher语句务必于下面信息一直，即真实有效：
 allowed_nodes： { GRAPH_CONFIG['allowed_nodes']}
 allowed_relationships： { GRAPH_CONFIG['allowed_relationships']}
 allowed_properties： {GRAPH_CONFIG['allowed_properties']}
-
-
 '''

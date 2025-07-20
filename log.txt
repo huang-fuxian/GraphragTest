@@ -215,3 +215,364 @@ response:
     *   **房地产平台：** 在链家、贝壳等平台搜索该地址，看是否有挂牌或历史交易信息。
 
 **请提供您关心的具体城市/区域和主要查询目的，我可以给出更有针对性的建议和数据源！** 
+-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+question:木材类型为定向木的项目 
+-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+question:木材类型为定向木的项目 
+-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+question:木材类型为定向木的项目 
+-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+question:木材类型为定向木的项目 
+-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+question:木材类型为定向木的项目 
+-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+question:木材类型为定向木的项目 
+-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+question:木材类型为定向木的项目 
+-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+question:木材类型为定向木的项目 
+response:
+以下是针对您查询“木材类型为定向木的项目”的总结结果。查询共返回8个项目，所有项目均使用定向木作为建筑木材。以下是项目列表的简要概述，基于每个项目的名称、状态等关键信息整理而成（图片和详细链接在原始查询结果中已提供，您可在链接中进一步查看）：
+
+### 项目列表总结：
+1. **海滨别墅**  
+   - 状态：改造
+2. **钢木并济，E&L Loft 居住建筑**  
+   - 状态：新建
+3. **廊坊北凤道垃圾中转站设计**  
+   - 状态：新建
+4. **翻折双“曲面”木屋 Dos Pieles House**  
+   - 状态：新建
+5. **波西米亚森林寓所**  
+   - 状态：新建
+6. **使用预制构件的法国60座社会住宅**  
+   - 状态：新建
+7. **Juquehy Praia 酒店**  
+   - 状态：新建
+8. **“断船旅馆”使用木材对抗海洋恶劣条件**  
+   - 状态：新建
+
+### 关键点：
+- **项目数量**：共 8 个项目。
+- **状态分布**：大多数项目为新建（7个项目），仅1个项目（海滨别墅）属于改造。
+- **建筑面积信息**：在部分项目中提供（如海滨别墅70㎡、法国社会住宅4160㎡），但并非所有项目都包含该属性（例如，Dos Pieles House未列出建筑面积），建议点击链接查看具体细节。
+- **提示**：所有项目链接已在原始查询结果中（例如 `https://www.archdaily.cn/cn/` 开头的URL），您可直接访问获取更多内容，包括项目图片和详细描述。
+
+如需更详细的个性化分析或进一步查询，请随时告知！ 
+-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+question:树种为桦木的项目 
+response:
+根据您的查询条件“树种为桦木”，我筛选出了以下8个相关项目。以下是这些项目的总结信息（按建筑面积由大到小排序）：
+
+### 项目列表：
+1. **挪威弗莱克菲尤尔文化中心**  
+   - 建筑面积：3500㎡  
+   - 状态：新建  
+   - [项目链接](https://www.archdaily.cn/cn/935625/nuo-wei-fu-lai-ke-fei-you-er-wen-hua-zhong-xin-helen-and-hard?ad_medium=office_landing&ad_name=article)
+
+2. **理想国书店**  
+   - 建筑面积：420㎡  
+   - 状态：新建  
+   - [项目链接](https://www.archdaily.cn/cn/1017661/li-xiang-guo-shu-dian-xi-tao-she-ji-gong-zuo-shi?ad_source=search&ad_medium=projects_tab)
+
+3. **精神残障人士护理中心**  
+   - 建筑面积：270㎡  
+   - 状态：新建  
+   - [项目链接](https://www.archdaily.cn/cn/801716/jing-shen-can-zhang-ren-shi-hu-li-zhong-xin-urbain-architectencollectief?ad_source=search&ad_medium=projects_tab)
+
+4. **伦敦‘拼接’艺术工作室**  
+   - 建筑面积：108㎡  
+   - 状态：改造  
+   - [项目链接](https://www.archdaily.cn/cn/955653/lun-dun-pin-jie-yi-zhu-gong-zuo-shi-martin-edwards-architects?ad_source=search&ad_medium=projects_tab)
+
+5. **过去的“内部”住宅**  
+   - 建筑面积：85㎡  
+   - 状态：新建  
+   - [项目链接](https://www.archdaily.cn/cn/798503/guo-qu-de-nei-bu-zhu-zhai-steven-holl-architects?ad_source=search&ad_medium=projects_tab)
+
+6. **荷兰木屋Buitenhuis**  
+   - 建筑面积：54㎡  
+   - 状态：新建  
+   - [项目链接](https://www.archdaily.cn/cn/951345/he-lan-mu-wu-buitenhuis-vlot-architecten?ad_source=search&ad_medium=projects_tab)
+
+7. **世外桃源舱室 The Escape Pod**  
+   - 建筑面积：7㎡  
+   - 状态：新建  
+   - [项目链接](https://www.archdaily.cn/cn/884488/shi-wai-tao-yuan-cang-shi-the-escape-pod-podmakers?ad_source=search&ad_medium=projects_tab)
+
+8. **古典建筑的夹缝，查特里斯中心**  
+   - 建筑面积：未提供  
+   - 状态：改造  
+   - [项目链接](https://www.archdaily.cn/cn/986288/greyfriars-charteris-zhong-xin-konishi-gaffney-architects?ad_source=search&ad_medium=projects_tab)
+
+### 关键统计：
+- **类型分布**：新建项目6个，改造项目2个。
+- **规模特征**：最小项目仅7㎡（世外桃源舱室），最大为3500㎡（挪威文化中心）。
+- **地理分布**：涵盖挪威、荷兰、英国及中国等地。
+
+> 注：所有项目均标注了桦木作为主要树种应用。点击项目链接可查看详细图文信息。 
+-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+question:树种为冷杉的项目 
+response:
+根据用户查询“树种为冷杉的项目”，我从数据库中检索到了8个相关项目。这些项目都以冷杉树种为特色（例如，涉及冷杉林环境或使用冷杉木材的建筑），并提供了关键属性总结。以下是对查询结果的详细中文总结：
+
+### 项目总览
+- **项目数量**：共 8 个项目。
+- **项目状态**：
+  - **新建项目**：6 个（新建建筑）。
+  - **改造项目**：2 个（现有建筑改造）。
+- **建筑面积范围**：从 10㎡ 到 1270㎡，跨度较大，具体包含小型构筑物、住宅和公共设施。
+- **共同特点**：所有项目均融入冷杉林自然环境或使用冷杉作为建筑材料，强调生态和景观设计。
+
+### 项目详情列表
+1. **冷杉林中的冥想圣地**  
+   - 建筑面积：141㎡  
+   - 状态：新建  
+   - 链接：[点击查看详情](https://www.archdaily.cn/cn/915557/rong-ru-leng-shan-lin-zhong-de-ming-xiang-sheng-di-wei-yan-wu-jian-zhu-du-shi-she-ji-shi-wu-suo?ad_medium=office_landing&ad_name=article)  
+   - 备注：项目位于冷杉林中，注重自然冥想体验。
+
+2. **德国通快日托中心**  
+   - 层数：1 层  
+   - 建筑面积：1270㎡  
+   - 状态：新建  
+   - 链接：[点击查看详情](https://www.archdaily.cn/cn/933986/de-guo-tong-kuai-ri-tuo-zhong-xin-barkow-leibinger?ad_source=search&ad_medium=projects_tab)  
+   - 备注：融入森林环境，使用冷杉木材建造。
+
+3. **旷野中的住宅**  
+   - 层数：2 层  
+   - 建筑面积：220㎡  
+   - 状态：新建  
+   - 链接：[点击查看详情](https://www.archdaily.cn/cn/600293/kuang-ye-zhong-de-zhu-zhai-slash-bernardo-bader-architects?ad_source=search&ad_medium=projects_tab)  
+   - 备注：位于荒野，设计强调冷杉木材的运用。
+
+4. **井字屋**  
+   - 层数：1 层  
+   - 建筑面积：310㎡  
+   - 状态：新建  
+   - 链接：[点击查看详情](https://www.archdaily.cn/cn/994244/jing-zi-wu-mork-ulnes-architects?ad_source=search&ad_medium=projects_tab)  
+   - 备注：简约木结构，冷杉木材为主要建筑材料。
+
+5. **学校内院改造**  
+   - 建筑面积：333㎡  
+   - 状态：改造  
+   - 链接：[点击查看详情](https://www.archdaily.cn/cn/978101/xue-xiao-nei-yuan-gai-zao-comas-pont-arquitectes?ad_source=search&ad_medium=projects_tab)  
+   - 备注：利用冷杉木材改造学校空间，增强自然氛围。
+
+6. **森里之屋**（注：应为“森林之屋”）  
+   - 建筑面积：345㎡  
+   - 状态：改造  
+   - 链接：[点击查看详情](https://www.archdaily.cn/cn/1025090/sen-li-zhi-wu-shed-architecture-and-design?ad_source=search&ad_medium=projects_tab)  
+   - 备注：位于森林中，改造后大量使用冷杉木材。
+
+7. **瑞士木屋餐厅，纵览峡谷风光**  
+   - 建筑面积：500㎡  
+   - 状态：新建  
+   - 链接：[点击查看详情](https://www.archdaily.cn/cn/963845/rui-shi-mu-wu-can-ting-zong-lan-xia-gu-feng-guang-olbh-gmbh?ad_source=search&ad_medium=projects_tab)  
+   - 备注：冷杉木建造，提供峡谷景观视野。
+
+8. **森林中的观望小木台**  
+   - 建筑面积：10㎡  
+   - 状态：新建  
+   - 链接：[点击查看详情](https://www.archdaily.cn/cn/924651/sen-lin-zhong-de-guan-wang-xiao-mu-tai-jcpcdr-architecture?ad_source=search&ad_medium=projects_tab)  
+   - 备注：小型木构平台，建于冷杉林，用于观景。
+
+### 总结重点
+- **项目多样性**：涵盖住宅、公共设施（日托中心、餐厅）、观景平台等，所有项目均突出冷杉树种的应用（如木材使用或环境整合）。
+- **状态分布**：大部分为新建项目（75%），改造项目占25%。
+- **建筑面积特征**：最小项目仅为10㎡（观望小木台），最大可达1270㎡（日托中心），总体以中小型规模为主。
+- **查看详情**：每个项目提供链接至ArchDaily中文站，包含图片和进一步信息（图片URL已嵌入原数据，可点击链接查看）。
+
+此总结基于查询结果整理，如需要更详细信息（如具体图片或设计特点），可随时参考项目链接或提供更多上下文！ 
+-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+question:树种为松树的项目 
+-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+question:建筑师团队为隈研吾的建筑 
+response:
+以下是根据用户查询结果的中文总结。查询的目标是“建筑师隈研吾（Kengo Kuma）及其团队（Kengo Kuma and Associates）的建筑项目”，共检索到8个相关项目。每个项目的基本信息包括名称、图片（URL）、建筑面积（如果有提供）、层数（如果有提供）、状态和详细链接（为简洁起见，链接在总结中以文本形式提及，可访问）。所有项目状态均为“新建”。
+
+### 项目总结列表：
+1. **项目名称：UCCA 陶美术馆**
+   - 建筑面积：3437㎡
+   - 层数：2层
+   - 状态：新建
+   - 详细链接：[点击查看](https://www.archdaily.cn/cn/1023377/xiang-qian-nian-tao-du-xue-xi-wei-yan-wu-xin-zuo-ucca-tao-mei-zhu-guan?ad_medium=office_landing&ad_name=article)
+
+2. **项目名称：Odunpazari 现代艺术博物馆**
+   - 建筑面积：3582㎡
+   - 状态：新建
+   - 详细链接：[点击查看](https://www.archdaily.cn/cn/924927/odunpazari-xian-dai-yi-zhu-bo-wu-guan-dui-die-mu-he-wei-yan-wu-jian-zhu-du-shi-she-ji-shi-wu-suo?ad_medium=office_landing&ad_name=article)
+
+3. **项目名称：安缦璞瑞零售概念店**
+   - 状态：新建（未提供建筑面积信息）
+   - 详细链接：[点击查看](https://www.archdaily.cn/cn/931895/an-man-pu-rui-ling-shou-gai-nian-dian-wei-yan-wu-jian-zhu-du-shi-she-ji-shi-wu-suo?ad_medium=office_landing&ad_name=article)
+
+4. **项目名称：莫里永学生宿舍**
+   - 建筑面积：30767㎡
+   - 状态：新建
+   - 详细链接：[点击查看](https://www.archdaily.cn/cn/977393/mo-li-yong-xue-sheng-su-she-wei-yan-wu-jian-zhu-du-shi-she-ji-shi-wu-suo-plus-cche?ad_medium=office_landing&ad_name=article)
+
+5. **项目名称：同一屋檐下**
+   - 状态：新建（未提供建筑面积信息）
+   - 详细链接：[点击查看](https://www.archdaily.cn/cn/802014/tong-wu-yan-xia-kengo-kuma-and-associates?ad_medium=office_landing&ad_name=article)
+
+6. **项目名称：AEAJ 景观平台**
+   - 建筑面积：491㎡
+   - 状态：新建
+   - 详细链接：[点击查看](https://www.archdaily.cn/cn/1016014/aeaj-jing-guan-ping-tai-wei-yan-wu-jian-zhu-du-shi-she-ji-shi-wu-suo?ad_source=search&ad_medium=projects_tab)
+
+7. **项目名称：coeda house咖啡厅**
+   - 建筑面积：139㎡
+   - 状态：新建
+   - 详细链接：[点击查看](https://www.archcollege.com/38513.html)
+
+8. **项目名称：GC Prostho Museum Research Center**
+   - 建筑面积：421㎡
+   - 状态：新建
+   - 详细链接：[点击查看](https://www.archdaily.cn/cn/611155/gc-prostho-museum-research-center-slash-kengo-kuma-and-associates?ad_medium=office_landing&ad_name=article)
+
+### 关键观察：
+- **所有项目的状态均为“新建”**，代表这些是隈研吾团队近年来的作品。
+- **建筑面积分布**：从最小的 coeda house咖啡厅（139㎡）到最大的莫里永学生宿舍（30767㎡），多数项目建筑面积在500-4000㎡之间。
+- **缺失信息**：部分项目（如安缦璞瑞零售概念店和同一屋檐下）未提供建筑面积或层数，这可能源于原始数据不完整。
+- **数据来源**：所有信息均来自查询结果中的链接（如 ArchDaily 等建筑类网站），可作为进一步探索的参考。
+
+如果您需要更多细节（如图片预览或特定项目的扩展信息），我可以协助整理或生成一个结构化的图表。 
+-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+question:查询所有杭州的项目 
+-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+question:查询所有在杭州的项目 
+-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+question:查询所有在杭州 的项目 
+response:
+根据您的查询“查询所有在杭州的项目”，系统返回了8个符合条件的结果。这些项目分布在杭州的不同区域（如滨江区、富阳区等），以下是针对查询结果的简洁中文总结。总结重点包括项目名称、建筑面积（所有项目均提供）、状态（新建或改造），以及部分项目的层数（如果查询结果中提供了该信息）。
+
+### 项目清单（共8个）
+1. **杭州滨江公共空间·长亭驿**  
+   - 建筑面积：1718㎡  
+   - 层数：2层  
+   - 状态：新建  
+   - 备注：位于杭州滨江区公共空间。
+
+2. **富阳·阳陂湖湿地公园南接待中心**  
+   - 建筑面积：300㎡  
+   - 状态：新建  
+   - 备注：位于富阳区（杭州的一个行政区），服务于湿地公园。
+
+3. **富阳阳陂湖湿地生态酒店**  
+   - 建筑面积：455㎡  
+   - 状态：新建  
+   - 备注：位于富阳区，与湿地公园相关。
+
+4. **交月亭**  
+   - 建筑面积：342㎡  
+   - 状态：新建  
+   - 备注：具体位置未明确标注，但查询结果确认位于杭州。
+
+5. **未迟精品民宿咖啡厅及温泉房**  
+   - 建筑面积：150㎡  
+   - 状态：新建  
+   - 备注：包含民宿和温泉设施，具体位置未明确标注，但查询结果确认位于杭州。
+
+6. **七鹤山乡村客厅**  
+   - 建筑面积：600㎡  
+   - 层数：2层  
+   - 状态：改造（唯一一个改造项目）  
+   - 备注：位于疑似杭州的七鹤山区域，功能为乡村公共空间。
+
+7. **杭州数字农场运营中心**  
+   - 建筑面积：2265㎡  
+   - 状态：新建  
+   - 备注：位于杭州，聚焦数字农业。
+
+8. **农研工坊，在田野里“打个旋儿”**  
+   - 建筑面积：555㎡  
+   - 状态：新建  
+   - 备注：主题为田野中的研发空间，具体位置未明确标注，但查询结果确认位于杭州。
+
+### 关键统计
+- **项目总数**: 8个  
+- **状态分布**: 新建项目7个，改造项目1个（七鹤山乡村客厅）。  
+- **建筑面积范围**: 从150㎡到2265㎡不等。  
+- **位置覆盖**: 所有项目均位于杭州，包括滨江区、富阳区等。未明确标注位置的项目（如交月亭、未迟精品民宿等）也属于杭州范围。
+
+如需查看详细图片或访问项目链接，请在原始查询结果中查看各项目的URL。如果您对其他属性（如图片或链接）有特定需求，我可以进一步处理！ 
+-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+question:查询所有使用CLT的高层项目 
+response:
+根据您的查询“查询所有使用CLT（交叉层压木材）的高层项目”，结果共返回了8个项目。所有项目均为新建状态，且都属于高层建筑（一般定义为10层以上，但包括部分7-9层的建筑）。层数范围从7层到20层，部分项目提供了高度或建筑面积等额外信息。以下是这些项目的简要中文总结：
+
+### 项目列表总结：
+1. **斯塔万格金融园区总部**：7层建筑，建筑面积22,500㎡。
+2. **Framework**：12层建筑，高度45.1米。
+3. **Puukuokka 木结构街区住房**：8层建筑，建筑面积18,650㎡。
+4. **Sara Kulturhus Center**：20层建筑，高度72.8米（这是层数最高和高度最高的项目）。
+5. **Trafalgar Place**：10层建筑。
+6. **25 King**：10层建筑，高度45米。
+7. **55 Southbank 南岸大道55号**：16层建筑，高度69.7米，建筑面27,000㎡（这是建筑面积最大的项目）。
+8. **Murray Grove**：9层建筑，高度29.3米。
+
+### 关键观察：
+- **层数分布**：7-9层项目有3个（斯塔万格、Puukuokka、Murray Grove），10-12层项目有4个（Framework、Trafalgar Place、25 King、部分高层），16-20层项目有2个（55 Southbank、Sara Kulturhus Center）。
+- **高度信息**：5个项目提供了高度数据（Framework 45.1米、Sara Kulturhus 72.8米等），其中Sara Kulturhus Center是高度和层数的峰值。
+- **其他细节**：3个项目有建筑面积信息（斯塔万格22,500㎡、Puukuokka 18,650㎡、55 Southbank 27,000㎡）。所有项目中，55 Southbank的建筑面积最大。
+- **所有项目状态**：均为新建，无建成或计划中项目。
+
+这些项目代表了全球范围内使用CLT材料的现代高层木结构建筑案例。如需更多详情（如图片或详细信息），请通过提供的链接访问相应页面。总结基于查询的原始结果提取。 
+-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+question:请告诉我大跨结构适合的结构类型，并解释 
+-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+question:查询结构类型为壳结构的项目 
+response:
+根据您的查询“查询结构类型为壳结构的项目”，我获取了8个相关项目的结果（所有状态均为新建）。这些项目涉及各种壳结构类型，如木结构穹顶、网格壳等，具有大跨度或曲面特征（许多项目包含“大跨”属性）。以下是关键信息的总结（按项目名称顺序排列）：
+
+### 查询结果总结：
+1. **瑞士斯沃琪与欧米茄园区，世界最大的木结构综合体**
+   - 建筑面积：25,000 ㎡  
+   - 大跨度结构（壳结构特征典型）
+   - 项目链接：[查看详情](https://www.archdaily.cn/cn/926313/rui-shi-si-wo-qi-yu-ou-mi-qie-yuan-qu-shi-jie-zui-da-de-mu-jie-gou-zong-he-ti-ban-mao-jian-zhu-she-ji?ad_source=search&ad_medium=projects_tab)
+
+2. **蓬皮杜梅斯中心**
+   - 建筑面积：11,330 ㎡  
+   - 跨度：15 m（大跨度壳屋顶）
+   - 项目链接：[查看详情](https://www.archdaily.cn/cn/776629/peng-pi-du-mei-si-zhong-xin-shigeru-ban-architects?ad_medium=office_landing&ad_name=article)
+
+3. **2015-16年 ICD-ITKE 研究展亭**
+   - 建筑面积：85 ㎡  
+   - 小型试验性壳结构（无跨度数据）
+   - 项目链接：[查看详情](https://www.archdaily.cn/cn/787034/icd-itke-yan-jiu-zhan-ting-2015-16-icd-itke-de-guo-si-tu-jia-te-da-xue?ad_source=search&ad_medium=projects_tab)
+
+4. **BUGA 木装置**
+   - 建筑面积：500 ㎡  
+   - 跨度：30 m（大跨度木壳结构）
+   - 项目链接：[查看详情](https://www.archdaily.cn/cn/917230/buga-mu-zhuang-zhi-si-tu-jia-te-da-xue-icd-itkeyan-jiu-suo?ad_source=search&ad_medium=projects_tab)
+
+5. **AD经典：大馆树海巨蛋**
+   - 建筑面积：23,219 ㎡  
+   - 跨度：178 m（大型壳式穹顶，世界知名）
+   - 项目链接：[查看详情](https://www.archdaily.cn/cn/890546/adjing-dian-da-guan-shu-hai-ju-dan-yi-dong-feng-xiong-shi-wu-suo?ad_medium=office_landing&ad_name=article)
+
+6. **种子木屋**
+   - 建筑面积：60 ㎡  
+   - 小型壳结构（无跨度数据）
+   - 项目链接：[查看详情](https://www.archdaily.cn/cn/961366/chong-zi-mu-wu-xiu-geng-jian-zhu?ad_source=search&ad_medium=projects_tab)
+
+7. **黑龙滩穹顶音乐礼堂**
+   - 建筑面积：345 ㎡  
+   - 小型曲面壳式礼堂（无跨度数据）
+   - 项目链接：[查看详情](https://www.archdaily.cn/cn/1029215/hei-long-tan-qiong-ding-yin-le-li-tang-shi-di-jian-zhu-she-ji-gong-zuo-shi?ad_source=search&ad_medium=projects_tab)
+
+8. **上海西岸人工智能峰会B馆**
+   - 建筑面积：8,885 ㎡  
+   - 跨度：40 m（大跨度壳结构展厅）
+   - 项目链接：[查看详情](https://www.archdaily.cn/cn/902289/shang-hai-xi-an-ren-gong-zhi-neng-feng-hui-bguan-chuang-meng-guo-ji-jian-zhu-she-ji?ad_medium=office_landing&ad_name=article)
+
+### 主要发现：
+- **总项目数**：8个  
+- **建筑面积分布**：从最小60㎡到最大25,000㎡，跨度从15m至178m（部分项目无跨度数据）。  
+- **常见特征**：多数项目带有“大跨”标签，涉及木结构、穹顶或曲面设计，体现了壳结构轻量、高效的空间表现。  
+- **状态**：所有项目均为新建。  
+- **数据来源**：以上信息基于提供的数据集整理；每个项目的链接可用鼠标点击查看详细图文。
+
+如果您需要进一步筛选（如按跨度大小排序）或获取更多细节，请随时告知！ 
+-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+question:查询所有连接方式为焊接的建筑 
