@@ -2,6 +2,8 @@
 from knowledge_graph_utils import build_dynamic_cypher_query, get_relevant_nodes_and_relations, load_graph_from_json, get_graph_overview, get_neo4j_driver, search_nodes_by_name
 from api_utils import LocalEmbeddings, test_api_connection, test_embeddings, get_api_client, get_context_aware_response, query_knowledge_graph, clean_api_response,get_context_aware_response_stream
 import re
+import streamlit as st  
+import jieba
 from openai import OpenAI
 from config import LLM_CONFIG,  EMBEDDING_CONFIG, NEO4J_CONFIG,GRAPH_CONFIG
 # from langchain_neo4j import Neo4jGraph
@@ -36,6 +38,7 @@ def graph_rag_fun(cypher_query, graph, question):
             try:
                 print("**🤖 AI智能总结：**")
                 client = OpenAI(api_key=API_KEY, base_url=LLM_API_URL)
+                placeholder = st.empty()
                 full_stream_text = ""
                 for chunk in get_context_aware_response_stream(
                     question=summary_prompt,
@@ -45,6 +48,7 @@ def graph_rag_fun(cypher_query, graph, question):
                     max_tokens=2000
                 ):
                     full_stream_text += chunk 
+                    placeholder.markdown(full_stream_text) 
                 if full_stream_text and len(full_stream_text.strip()) > 5:
                     print(f"✅ AI总结生成成功:{full_stream_text}")
                     
@@ -659,19 +663,19 @@ def old_prompt(relevant_info):
 def example():
     return """
         # 查询特定功能的项目：
-        MATCH (p:项目)-[:功能]->(f:功能 {名称: '办公'}) RETURN p
+        MATCH (p:项目)-->(f:功能 {名称: '办公'}) RETURN p
         
         # 查询特定国家的项目：
-        MATCH (p:项目)-[:国家]->(c:国家 {名称: '中国'}) RETURN p
+        MATCH (p:项目)-->(c:国家 {名称: '中国'}) RETURN p
         
         # 查询特定结构类型：
-        MATCH (p:项目)-[:结构类型]->(s:结构类型 {名称: '钢结构'}) RETURN p
+        MATCH (p:项目)-->(s:结构类型 {名称: '钢结构'}) RETURN p
         
         # 查询特定年份的项目：
-        MATCH (p:项目)-[:建成年份]->(y:建成年份 {名称: '2020'}) RETURN p
+        MATCH (p:项目)-->(y:建成年份 {名称: '2020'}) RETURN p
         
         # 查询特定建筑师团队：
-        MATCH (p:项目)-[:建筑师团队]->(a:建筑师团队 {名称: '团队名称'}) RETURN p
+        MATCH (p:项目)-->(a:建筑师团队 {名称: '团队名称'}) RETURN p
         
         # 查询项目及其所有关联信息：
         MATCH (p:项目)-[r]-(n) RETURN p, r, n
@@ -692,13 +696,13 @@ def example():
         MATCH (p:项目) WHERE toInteger(p.建筑面积) > 10000 RETURN p
         
         # 查询使用特定树种的项目：
-        MATCH (p:项目)-[:树种]->(t:树种 {名称: '松木'}) RETURN p
+        MATCH (p:项目)-->(t:树种 {名称: '松木'}) RETURN p
         
         # 查询使用特定木材类型的项目：
-        MATCH (p:项目)-[:木材类型]->(m:木材类型 {名称: 'CLT'}) RETURN p
+        MATCH (p:项目)-->(m:木材类型 {名称: 'CLT'}) RETURN p
         
         # 查询特定连接方式的项目：
-        MATCH (p:项目)-[:连接方式]->(c:连接方式 {名称: '榫卯连接'}) RETURN p
+        MATCH (p:项目)-->(c:连接方式 {名称: '榫卯连接'}) RETURN p
         
         # 查询结构类型的层次关系：
         MATCH (s1:结构类型)-[:包含]->(s2:结构类型) RETURN s1, s2
@@ -743,7 +747,7 @@ def example():
         Cypher：MATCH (s1:结构类型 {名称: '大跨木结构'})-[:包含]->(s2:结构类型) RETURN s2
         
         # 查找壳结构的大跨项目:
-        Cypher：MATCH (p:项目)-[:结构类型]->(m:结构类型 {名称: '壳结构'}) WHERE p.大跨 IS NOT NULL RETURN p
+        Cypher：MATCH (p:项目)-->(m:结构类型 {名称: '壳结构'}) WHERE p.大跨 IS NOT NULL RETURN p
 
     """
 def context_aware_kg_qa(prompt):
@@ -769,23 +773,87 @@ def context_aware_kg_qa(prompt):
 
     # 3. 构造大模型输入
     prompt = old_prompt(relevant_info)
-    # # 4. 构造历史消息
-    messages = [{"role": "user", "content": prompt}]
+    keywords = jieba.lcut(prompt)
+    key_terms = [word for word in keywords if len(word) >= 2]
+    
     # messages += history
     # messages.append({"role": "user", "content": prompt})
-
+    ##功能 木材类型 树种 建筑特色 连接方式 建筑师团队 结构类型(模糊查询)
+    fuzzy_nodes = ["功能", "木材类型", "树种", "建筑特色", "连接方式", "建筑师团队", "结构类型"]
+    fuzzy_idx, fuzzy_key, fuzzy_value = None, None, None
+    for idx,kv  in enumerate(key_terms[:-1]):
+        if kv in fuzzy_nodes:
+            fuzzy_key=kv
+            fuzzy_idx=idx
+            break
+    if fuzzy_idx!=None:
+        fuzzy_value = key_terms[fuzzy_idx+1]
+    # # 4. 构造历史消息
+    fuzzy_prompt=""
+    if fuzzy_value!=None:
+        fuzzy_examples = fuzzy_fun(fuzzy_key,fuzzy_value)
+    
+    prompt = prompt 
+    messages = [{"role": "user", "content": prompt}]
     # 5. 调用大模型
     client = get_api_client()
     response = client.chat.completions.create(
         model=LLM_CONFIG["Model"],
         messages=messages,
-        # max_tokens=400,  # 适中的长度
-        # temperature=0.3  # 降低随机性，提高速度
+        max_tokens=200,  # 适中的长度
+        temperature=0.3,  # 降低随机性，提高速度
+        stream=True
     )
-    return response.choices[0].message.content.strip()
+
+    placeholder = st.empty()  # 创建占位区域
+    # placeholder.markdown("Cypher查询语句：")
+    full_response = ""
+    for chunk in response:
+        content = chunk.choices[0].delta.content or ""
+        full_response += content
+        placeholder.markdown(full_response)  # 实时更新占位区域
+    
+
+    return full_response.strip()
 
 
-
+def fuzzy_fun(fuzzy_key,fuzzy_value):
+    fuzzy_methods = ["CONTAINS", "STARTS WITH","ENDS SWITH","REGEX"]
+    fuzzy_prompt_list = []
+    for fz in fuzzy_methods:
+        if fz == "CONTAINS":
+            text = f"""
+            #使用{fz}来模糊查询{fuzzy_key}为{fuzzy_value}的项目：
+            MATCH (p:项目)-->(m:{fuzzy_key})
+            WHERE toLower(m.名称) {fz} toLower('{fuzzy_value}')
+            RETURN p
+        """
+            fuzzy_prompt_list.append(text)
+        elif fz == "STARTS WITH":
+            text = f"""
+            #使用{fz}来模糊查询{fuzzy_key}为{fuzzy_value}的项目：
+            MATCH (p:项目)-->(m:{fuzzy_key})
+            WHERE toLower(m.名称) {fz} toLower('{fuzzy_value}')
+            RETURN p
+        """
+            fuzzy_prompt_list.append(text)
+        elif fz == "ENDS WITH":
+            text = f"""
+            #使用{fz}来模糊查询{fuzzy_key}为{fuzzy_value}的项目：
+            MATCH (p:项目)-->(m:{fuzzy_key})
+            WHERE toLower(m.名称) {fz} toLower('{fuzzy_value}')
+            RETURN p
+        """
+            fuzzy_prompt_list.append(text)
+        elif fz == "REGEX":
+            text = f"""
+            #使用{fz}来模糊查询{fuzzy_key}为{fuzzy_value}的项目：
+            MATCH (p:项目)-->(m:{fuzzy_key})
+            WHERE m.名称 =~ '(?i).*{fuzzy_value}.*' 
+            RETURN p
+        """
+            fuzzy_prompt_list.append(text)
+    return fuzzy_prompt_list
 # 在文件顶部或 context_aware_kg_qa 前定义 schema 变量：
 
 def background_knowledge(relevant_info):

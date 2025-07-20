@@ -1,1 +1,0 @@
-MATCH (n)    WHERE 1=1    WITH n    ORDER BY size(n.text) DESC    LIMIT 20    OPTIONAL MATCH (n)-[r]-(related)    WITH n, r, related    WHERE ('城市' IN labels(n) OR '城市' IN labels(related)) AND (type(r) = '位于城市')    RETURN DISTINCT n, r, related    ORDER BY n.text    LIMIT 20

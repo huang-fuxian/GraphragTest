@@ -1,17 +1,17 @@
 # config.py
 
-import os
-from dotenv import load_dotenv
 
-# 加载环境变量
-load_dotenv()
+# from dotenv import load_dotenv
+
+# # 加载环境变量
+# load_dotenv()
 
 # API配置
 LLM_CONFIG = {
     'API_KEY':"sk-dlkclqnhiisoienmsmznzwaufudgbpqxlggsyfgzgefiogks",
     "API_URL": "https://api.siliconflow.cn/v1" ,
-    # "Model": "deepseek-ai/DeepSeek-R1"
-    "Model": "deepseek-ai/DeepSeek-R1-0528-Qwen3-8B"
+    "Model": "deepseek-ai/DeepSeek-R1"
+    # "Model": "deepseek-ai/DeepSeek-R1-0528-Qwen3-8B"
     # "Model": "THUDM/glm-4-9b-chat"
 }
 
@@ -63,8 +63,8 @@ GRAPH_CONFIG = {
 '项目',
 '应用场景',
     ],
-    'allowed_relationships': [
-        '包含结构类型', 
+'allowed_relationships': [
+'包含结构类型', 
 '包含木材类型', 
 '包含树种', 
 '采用结构类型', 
