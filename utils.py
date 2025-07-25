@@ -646,17 +646,25 @@ def construct_db_cypher():
 
 def old_system_prompt(relevant_info):
     return f"""
-        您是一名木结构建筑知识图谱查询助手，能够根据示例Cypher查询生成Cypher查询。
-        示例Cypher查询有：\n {example()} \n
-        数据库的构建过程如下，请仔细查看里面的node和relationship，property keys。在生成cypher查询时要与这些里面的变量名都保持一致：{construct_db_cypher()} \n
+        您是一名木结构建筑知识图谱查询助手，能够根据示例Cypher查询生成Cypher查询。 
+        示例Cypher查询有：\n {example()} \n       
         下面是一些相关的背景知识请，仔细阅读，生成Cypher语句时需要结合：\n {background_knowledge(relevant_info)} \n
         除了Cypher查询之外，不要回复任何解释或任何其他信息。
-        您永远不要为你的不准确回复感到抱歉，并严格根据提供的cypher示例生成cypher语句。
-        不要提供任何无法从Cypher示例中推断出的Cypher语句。
-        当由于缺少对话上下文而无法推断密码语句时，通知用户，并说明缺少的上下文是什么。
         现在请为这个查询生成Cypher:
         # {relevant_info['question']}
         """
+    # return f"""
+    #     您是一名木结构建筑知识图谱查询助手，能够根据示例Cypher查询生成Cypher查询。
+    #     示例Cypher查询有：\n {example()} \n
+    #     数据库的构建过程如下，请仔细查看里面的node和relationship，property keys。在生成cypher查询时要与这些里面的变量名都保持一致：{construct_db_cypher()} \n
+    #     下面是一些相关的背景知识请，仔细阅读，生成Cypher语句时需要结合：\n {background_knowledge(relevant_info)} \n
+    #     除了Cypher查询之外，不要回复任何解释或任何其他信息。
+    #     您永远不要为你的不准确回复感到抱歉，并严格根据提供的cypher示例生成cypher语句。
+    #     不要提供任何无法从Cypher示例中推断出的Cypher语句。
+    #     当由于缺少对话上下文而无法推断密码语句时，通知用户，并说明缺少的上下文是什么。
+    #     现在请为这个查询生成Cypher:
+    #     # {relevant_info['question']}
+    #     """
 def old_prompt(relevant_info):
         prompt = old_system_prompt(relevant_info)
         return prompt
@@ -787,7 +795,8 @@ def context_aware_kg_qa(question):
     # 3. 构造大模型输入
     prompt = old_prompt(relevant_info)
     fuzzy_nodes = GRAPH_CONFIG["fuzzy_words"]
-    for word in fuzzy_nodes:
+    jieba_words = GRAPH_CONFIG["jieba_words"]
+    for word in jieba_words:
         jieba.add_word(word, freq=10000)
     keywords = jieba.lcut(question)
     key_terms = [word for word in keywords if len(word) >= 2]
@@ -806,7 +815,8 @@ def context_aware_kg_qa(question):
         fuzzy_value = key_terms[fuzzy_idx+1]
     # # 4. 构造历史消息
     # fuzzy_methods = ["CONTAINS", "STARTS WITH","ENDS WITH","REGEX"]
-    fuzzy_methods = ["CONTAINS", "STARTS WITH","ENDS WITH"]
+    # fuzzy_methods = ["CONTAINS", "STARTS WITH","ENDS WITH"]
+    fuzzy_methods = ["CONTAINS"]
     fuzzy_examples=[]
     if fuzzy_value!=None:
         fuzzy_examples = fuzzy_fun(fuzzy_key,fuzzy_value,fuzzy_methods)
@@ -852,6 +862,13 @@ def context_aware_kg_qa(question):
                 full_response += content
                 # placeholder.markdown(full_response)  # 实时更新占位区域
             full_response_list.append(full_response)
+        if len(full_response_list)==2:
+            last_response = full_response_list[-1]
+            regex_response = last_response.replace('CONTAINS','STARTS WITH')
+            full_response_list.append(regex_response)
+            regex_response = last_response.replace('CONTAINS','ENDS WITH')
+            full_response_list.append(regex_response)
+
         if len(full_response_list)==4:
             last_response = full_response_list[-1]
             regex_response = last_response.split('ENDS WITH')[0] +  f" =~ '(?i).*{fuzzy_value}.*$' RETURN p"

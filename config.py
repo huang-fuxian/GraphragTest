@@ -10,8 +10,8 @@
 LLM_CONFIG = {
     'API_KEY':"sk-dlkclqnhiisoienmsmznzwaufudgbpqxlggsyfgzgefiogks",
     "API_URL": "https://api.siliconflow.cn/v1" ,
-    "Model": "deepseek-ai/DeepSeek-R1"
-    # "Model": "deepseek-ai/DeepSeek-R1-0528-Qwen3-8B"
+    # "Model": "deepseek-ai/DeepSeek-R1"
+    "Model": "deepseek-ai/DeepSeek-R1-0528-Qwen3-8B"
     # "Model": "THUDM/glm-4-9b-chat"
 }
 
@@ -37,11 +37,9 @@ EMBEDDING_CONFIG = {
 }
 
 GRAPH_CONFIG = {
-    "fuzzy_words":["功能", "木材类型", "树种", "建筑特色", "连接方式", "建筑师团队", "结构类型","隈研吾","壳结构"],
+    "fuzzy_words":["功能", "木材类型", "树种", "建筑特色", "连接方式", "建筑师团队", "结构类型"],
+    "jieba_words":["功能", "木材类型", "树种", "建筑特色", "连接方式", "建筑师团队", "结构类型","隈研吾","壳结构"],
     'allowed_nodes': [
-        # "功能", "厂家", "国家", "城市", "建成年份",
-        # "建筑师团队", "建筑特色", "施工", "研究内容", "结构工程",
-        # "结构类型", "连接方式", "面积分级", "项目"
         '别名',
 '材料特点',
 '层数',

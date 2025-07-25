@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 import json
+import random
 import streamlit as st  
 from openai import OpenAI   
 from utils import context_aware_kg_qa,extract_cypher_from_llm_output,configure_neo4j,graph_rag_fun,simple_extract_cypher,get_context_aware_response_stream
 from config import LLM_CONFIG
 from utils import deduplicate_dicts
-
+import datetime
 API_KEY = LLM_CONFIG["API_KEY"]
 LLM_API_URL = LLM_CONFIG["API_URL"]
 Model_name = LLM_CONFIG["Model"]
@@ -58,17 +59,14 @@ with st.sidebar:
             st.session_state.messages = [{"role": "assistant", "content": "欢迎使用对话机器人，你想知道什么?"}]  
   
   
-    # 显示历史对话列表  
+    ##显示历史对话列表  
     st.subheader("历史对话")  
     if "history_conversations" in st.session_state:  
         conv_num = len(st.session_state.history_conversations)
         for idx in range(conv_num-1,-1,-1):
             if st.button(f"对话 {idx + 1}", key=f"load_conv_{idx}"):  
                 st.session_state.messages = st.session_state.history_conversations[idx]  
-        # for idx, conv in enumerate(st.session_state.history_conversations):  
-        #     if st.button(f"对话 {idx + 1}", key=f"load_conv_{idx}"):  
-        #         st.session_state.messages = conv  
-                # st.success(f"成功加载对话 {idx + 1}")  
+
 
 
 client = OpenAI(api_key=API_KEY, base_url=LLM_API_URL)  
@@ -87,6 +85,7 @@ if prompt := st.chat_input():
     st.chat_message("user").write(prompt)  
 
     with open("log.txt", 'a+', encoding='utf-8') as f:
+        f.write(f"当前时间：{ str(datetime.datetime.now())}\n")
         f.write(f"-*"*50+ "\n")
         f.write(f"question:{prompt} \n")
     
@@ -113,6 +112,7 @@ if prompt := st.chat_input():
                         result = graph.run(cq).data()
                         result_list.extend(result)
                     result=deduplicate_dicts(result_list)
+                    random.shuffle(result)
                 else:
                     result = graph.run(cypher_query).data()
                 if result and len(result)>0:
