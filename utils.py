@@ -1,13 +1,13 @@
 
-from knowledge_graph_utils import build_dynamic_cypher_query, get_relevant_nodes_and_relations, load_graph_from_json, get_graph_overview, get_neo4j_driver, search_nodes_by_name
-from api_utils import LocalEmbeddings, test_api_connection, test_embeddings, get_api_client, get_context_aware_response, query_knowledge_graph, clean_api_response,get_context_aware_response_stream
+import time
+from api_utils import get_api_client, get_context_aware_response_stream
 import re
 import streamlit as st  
 import jieba
 from openai import OpenAI
-from config import LLM_CONFIG,  EMBEDDING_CONFIG, NEO4J_CONFIG,GRAPH_CONFIG
+from config import LLM_CONFIG,NEO4J_CONFIG,GRAPH_CONFIG
 # from langchain_neo4j import Neo4jGraph
-from py2neo import Graph, Node, Relationship
+from py2neo import Graph
 API_KEY = LLM_CONFIG["API_KEY"]
 LLM_API_URL = LLM_CONFIG["API_URL"]
 Model_name = LLM_CONFIG["Model"]
@@ -77,6 +77,9 @@ def simple_extract_cypher(input_str):
     # 移除首尾空白及开头的"cypher"标记
     if cypher_block.startswith("cypher"):
         cypher_block = cypher_block[6:]  # 移除"cypher\n"
+    
+    if "MATCH" in cypher_block:
+        cypher_block = "MATCH "+ cypher_block.split("MATCH")[1]
  
     return cypher_block.strip().replace("\n", " ")
 
@@ -824,6 +827,7 @@ def context_aware_kg_qa(question):
 
     messages = [{"role": "user", "content": prompt}]
     # 5. 调用大模型
+    t1 = time.time()
     client = get_api_client()
     response = client.chat.completions.create(
         model=LLM_CONFIG["Model"],
@@ -840,7 +844,9 @@ def context_aware_kg_qa(question):
         content = chunk.choices[0].delta.content or ""
         full_response += content
         # placeholder.markdown(full_response)  # 实时更新占位区域
-    
+    t2 = time.time()
+    print(f"!!!!! cypher generate cost time:{t2-t1},response:{full_response}")
+    t3=time.time()
     full_response_list = []
     if full_response.strip() != "" and len(fuzzy_examples)>0:
         full_response_list.append(full_response)
@@ -873,6 +879,8 @@ def context_aware_kg_qa(question):
             last_response = full_response_list[-1]
             regex_response = last_response.split('ENDS WITH')[0] +  f" =~ '(?i).*{fuzzy_value}.*$' RETURN p"
             full_response_list.append(regex_response)
+        t4=time.time()
+        print(f"generate fuzzy cypher cost time:{t4-t3},full response:{full_response_list[-1]}")
         return full_response_list
     else:
         return full_response.strip()

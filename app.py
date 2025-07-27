@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import json
 import random
+import time
 import streamlit as st  
 from openai import OpenAI   
 from utils import context_aware_kg_qa,extract_cypher_from_llm_output,configure_neo4j,graph_rag_fun,simple_extract_cypher,get_context_aware_response_stream
@@ -89,109 +90,119 @@ if prompt := st.chat_input():
         f.write(f"-*"*50+ "\n")
         f.write(f"question:{prompt} \n")
     
-    with st.spinner("🤔 正在分析您的问题..."):
-        response_query = context_aware_kg_qa(prompt)
-        if isinstance(response_query,list):
-            cypher_query=[]
-            for rq in response_query:
-                cq = simple_extract_cypher(rq)
-                cypher_query.append(cq)
-        else:
-            cypher_query = simple_extract_cypher(response_query)
-        content = ""
-        full_stream_text = ""
-        result = None
-      
-        if cypher_query: 
-            try:
-                if isinstance(cypher_query,list):
-                    result_list = []
-                    for idx,cq in enumerate(cypher_query): 
-                        cq = simple_extract_cypher(cq)
-                        print(f"Cypher语句{idx}:{cq}\n")
-                        result = graph.run(cq).data()
-                        result_list.extend(result)
-                    result=deduplicate_dicts(result_list)
-                    random.shuffle(result)
-                else:
-                    result = graph.run(cypher_query).data()
-                if result and len(result)>0:
-                    st.markdown("**🔍 查询结果：**")
-                    with st.expander(f"🔍 查看查询结果 ({len(result)} 条)", expanded=False):
-                        # 优化展示，保证每条完整，内容过长时减少条数                    
-                        max_display = 10
-                        max_chars = 4000
-                        display_list = []
-                        total_chars = 0
-                        for item in result[:max_display]:
-                            item_str = json.dumps(item, ensure_ascii=False)
-                            if total_chars + len(item_str) > max_chars:
-                                break
-                            display_list.append(item)
-                            total_chars += len(item_str)
-                        if not display_list and result:
-                            # 如果第一条就超长，至少展示一条
-                            display_list = [result[0]]
-                        st.json(display_list)
-                    with st.expander("📝 查看Cypher查询语句", expanded=False):
-                        if isinstance(cypher_query,list):
-                            for cq in cypher_query:
-                                st.code(cq, language="cypher")
-                        else:
-                            st.code(cypher_query, language="cypher")
-                    summary_prompt = f"用户问题：{prompt}\n查询结果：{result[:8]}\n请用中文总结这些结果。"
-                    try:
-                        st.markdown("**🤖 AI智能总结：**")
-                        stream_placeholder = st.empty()
-                        full_stream_text = ""
-                        for chunk in get_context_aware_response_stream(
-                            question=summary_prompt,
-                            history=[],
-                            client=client,
-                            model_name=Model_name,
-                            max_tokens=2000
-                        ):
-                            full_stream_text += chunk
-                            stream_placeholder.markdown(full_stream_text)
-                        if full_stream_text and len(full_stream_text.strip()) > 5:
-                            content = full_stream_text
-                            st.success("✅ AI总结生成成功")
-                            st.session_state.messages.append({"role": "assistant", "content": "🤖 AI智能总结：" + full_stream_text})
-                            # st.session_state.qa_system.add_to_history("assistant", "🤖 AI智能总结：" + full_stream_text)
-                        else:
-                            st.warning("AI总结内容为空")
-                    except Exception as e:
-                        st.warning(f"AI总结失败: {str(e)}")                    
-                else:
-                    st.warning("未查到相关内容，请尝试调整您的问题或关键词。")
-                    st.session_state.messages.append({"role": "assistant", "content": "未查到相关内容，请尝试调整您的问题或关键词。"})
-                    # st.session_state.qa_system.add_to_history("assistant", "未查到相关内容，请尝试调整您的问题或关键词。")
-            except Exception as e:
-                st.error(f"❌ Cypher 执行出错: {str(e)}")
-        else:
-            st.warning("未提取到Cypher查询，显示原始AI响应")
-        if full_stream_text=="":                
-            st.markdown("**🤖 AI回答：**")
-            response = client.chat.completions.create(  
-                model=Model_name,  
-                messages=[{"role": "user", "content": prompt}],  
-                max_tokens=1000,  # 适中的长度
-                temperature=0.3,
-                stream=True  
-            )  
+    # with st.spinner("🤔 正在分析您的问题..."):
+    response_query = context_aware_kg_qa(prompt)
+    if isinstance(response_query,list):
+        cypher_query=[]
+        for rq in response_query:
+            cq = simple_extract_cypher(rq)
+            cypher_query.append(cq)
+    else:
+        cypher_query = simple_extract_cypher(response_query)
+    content = ""
+    full_stream_text = ""
+    result = None
+    
+    if cypher_query: 
+        try:
+            if isinstance(cypher_query,list):
+                t1=time.time()
+                result_list = []
+                for idx,cq in enumerate(cypher_query): 
+                    cq = simple_extract_cypher(cq)
+                    print(f"Cypher语句{idx}:{cq}\n")
+                    result = graph.run(cq).data()
+                    result_list.extend(result)
+                result=deduplicate_dicts(result_list)
+                random.shuffle(result)
+                t2=time.time()
+                print(f"query from graph time:{t2-t1}")
+            else:
+                result = graph.run(cypher_query).data()
+            if result and len(result)>0:
+                t3=time.time()
+                st.markdown("**🔍 查询结果：**")
+                with st.expander(f"🔍 查看查询结果 ({len(result)} 条)", expanded=False):
+                    # 优化展示，保证每条完整，内容过长时减少条数                    
+                    max_display = 10
+                    max_chars = 4000
+                    display_list = []
+                    total_chars = 0
+                    for item in result[:max_display]:
+                        item_str = json.dumps(item, ensure_ascii=False)
+                        if total_chars + len(item_str) > max_chars:
+                            break
+                        display_list.append(item)
+                        total_chars += len(item_str)
+                    if not display_list and result:
+                        # 如果第一条就超长，至少展示一条
+                        display_list = [result[0]]
+                    st.json(display_list)
+                with st.expander("📝 查看Cypher查询语句", expanded=False):
+                    if isinstance(cypher_query,list):
+                        for cq in cypher_query:
+                            st.code(cq, language="cypher")
+                    else:
+                        st.code(cypher_query, language="cypher")
+                summary_prompt = f"用户问题：{prompt}\n查询结果：{result[:8]}\n请用中文总结这些结果。"
+                t4=time.time()
+                print(f"show query results time:{t4-t3}")
+                try:
+                    t5=time.time()
+                    st.markdown("**🤖 AI智能总结：**")
+                    stream_placeholder = st.empty()
+                    full_stream_text = ""
+                    for chunk in get_context_aware_response_stream(
+                        question=summary_prompt,
+                        history=[],
+                        client=client,
+                        model_name=Model_name,
+                        max_tokens=2000
+                    ):
+                        full_stream_text += chunk
+                        stream_placeholder.markdown(full_stream_text)
+                    t6=time.time()
+                    print(f"Summary time cost:{t6-t5}")
+                    if full_stream_text and len(full_stream_text.strip()) > 5:
+                        content = full_stream_text
+                        st.success("✅ AI总结生成成功")
+                        st.session_state.messages.append({"role": "assistant", "content": "🤖 AI智能总结：" + full_stream_text})
+                        # st.session_state.qa_system.add_to_history("assistant", "🤖 AI智能总结：" + full_stream_text)
+                    
+                    else:
+                        st.warning("AI总结内容为空")
+                except Exception as e:
+                    st.warning(f"AI总结失败: {str(e)}")                    
+            else:
+                st.warning("未查到相关内容，请尝试调整您的问题或关键词。")
+                st.session_state.messages.append({"role": "assistant", "content": "未查到相关内容，请尝试调整您的问题或关键词。"})
+                # st.session_state.qa_system.add_to_history("assistant", "未查到相关内容，请尝试调整您的问题或关键词。")
+        except Exception as e:
+            st.error(f"❌ Cypher 执行出错: {str(e)}")
+    else:
+        st.warning("未提取到Cypher查询，显示原始AI响应")
+    if full_stream_text=="":                
+        st.markdown("**🤖 AI回答：**")
+        response = client.chat.completions.create(  
+            model=Model_name,  
+            messages=[{"role": "user", "content": prompt}],  
+            max_tokens=1000,  # 适中的长度
+            temperature=0.3,
+            stream=True  
+        )  
 
-            placeholder = st.empty()  # 创建占位区域
-            # placeholder.markdown("Cypher查询语句：")
-            full_response = ""
-            for chunk in response:
-                content = chunk.choices[0].delta.content or ""
-                full_response += content
-                placeholder.markdown(full_response) 
-            content =full_response
+        placeholder = st.empty()  # 创建占位区域
+        # placeholder.markdown("Cypher查询语句：")
+        full_response = ""
+        for chunk in response:
+            content = chunk.choices[0].delta.content or ""
+            full_response += content
+            placeholder.markdown(full_response) 
+        content =full_response
 
-            # st.markdown(content)
-        # if full_stream_text=="":
-            
+        # st.markdown(content)
+    # if full_stream_text=="":
+        
     with open("log.txt", 'a+', encoding='utf-8') as f:
         f.write(f"response:{content} \n")
     assistant_reply = content  

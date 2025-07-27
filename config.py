@@ -7,13 +7,22 @@
 # load_dotenv()
 
 # API配置
+# LLM_CONFIG = {
+#     'API_KEY':"sk-dlkclqnhiisoienmsmznzwaufudgbpqxlggsyfgzgefiogks",
+#     "API_URL": "https://api.siliconflow.cn/v1" ,
+#     # "Model": "deepseek-ai/DeepSeek-R1"
+#     "Model": "deepseek-ai/DeepSeek-R1-0528-Qwen3-8B"
+#     # "Model": "THUDM/glm-4-9b-chat"
+# }
 LLM_CONFIG = {
-    'API_KEY':"sk-dlkclqnhiisoienmsmznzwaufudgbpqxlggsyfgzgefiogks",
-    "API_URL": "https://api.siliconflow.cn/v1" ,
-    # "Model": "deepseek-ai/DeepSeek-R1"
-    "Model": "deepseek-ai/DeepSeek-R1-0528-Qwen3-8B"
+    'API_KEY':"sk-b89dee029855435b8452c2f52d3bdb08",
+    "API_URL": "https://dashscope.aliyuncs.com/compatible-mode/v1" ,
+    # "Model": "deepseek-r1"
+    "Model": "qwen-plus"
     # "Model": "THUDM/glm-4-9b-chat"
 }
+
+
 
 # Neo4j配置 - 请在这里设置您的Neo4j密码
 NEO4J_CONFIG = {"DB1":{
