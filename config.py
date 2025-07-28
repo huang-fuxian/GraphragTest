@@ -17,9 +17,9 @@
 LLM_CONFIG = {
     'API_KEY':"sk-b89dee029855435b8452c2f52d3bdb08",
     "API_URL": "https://dashscope.aliyuncs.com/compatible-mode/v1" ,
-    # "Model": "deepseek-r1"
-    "Model": "qwen-plus"
-    # "Model": "THUDM/glm-4-9b-chat"
+    # "Model": "deepseek-r1"，
+    # "Model": "qwen-plus"，
+    "Model":"qwen-turbo"    
 }
 
 
