@@ -8,14 +8,14 @@
 
 # API配置
 # LLM_CONFIG = {
-#     'API_KEY':"sk-dlkclqnhiisoienmsmznzwaufudgbpqxlggsyfgzgefiogks",
+#     'API_KEY':"xxx",
 #     "API_URL": "https://api.siliconflow.cn/v1" ,
 #     # "Model": "deepseek-ai/DeepSeek-R1"
 #     "Model": "deepseek-ai/DeepSeek-R1-0528-Qwen3-8B"
 #     # "Model": "THUDM/glm-4-9b-chat"
 # }
 LLM_CONFIG = {
-    'API_KEY':"sk-b89dee029855435b8452c2f52d3bdb08",
+    'API_KEY':"xxx",
     "API_URL": "https://dashscope.aliyuncs.com/compatible-mode/v1" ,
     # "Model": "deepseek-r1"，
     # "Model": "qwen-plus"，
